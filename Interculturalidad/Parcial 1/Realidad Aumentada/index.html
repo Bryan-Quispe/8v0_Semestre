@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascota 3D - Realidad Aumentada | ESPE</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(0, 51, 102, 0.95);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .info-section {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .info-section h2 {
+            color: #003366;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .info-section p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .instructions {
+            background: #f0f4ff;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 8px;
+        }
+
+        .instructions h3 {
+            color: #003366;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .tech-section {
+            margin-top: 22px;
+            padding: 20px;
+            background: #f8fbff;
+            border: 1px solid #e2e8ff;
+            border-radius: 14px;
+            text-align: left;
+        }
+
+        .tech-section h3 {
+            color: #003366;
+            margin-bottom: 10px;
+        }
+
+        .tech-section p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .tech-list {
+            margin-left: 18px;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .tech-list li {
+            margin-bottom: 8px;
+        }
+
+        .ar-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ar-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .ar-button:active {
+            transform: translateY(0);
+        }
+
+        .ar-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .viewer-shell {
+            margin-top: 24px;
+            border: 1px solid #e3e8ff;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #f7f9ff;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 340px;
+            background: radial-gradient(circle at 50% 35%, #e6ecff 0%, #cfd8ff 55%, #b8c6ff 100%);
+        }
+
+        .viewer-status {
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            color: #2b3a67;
+            border-top: 1px solid #e3e8ff;
+            background: #eef3ff;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 3px solid #667eea;
+            transition: 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature h3 {
+            color: #003366;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .footer {
+            background: rgba(0, 51, 102, 0.95);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .qr-section {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .qr-section p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        #qrcode {
+            background: #fff;
+            padding: 12px;
+            border-radius: 14px;
+            display: inline-block;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .info-section {
+                padding: 20px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .instructions ol {
+                margin-left: 15px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="header">
+            <h1>🎓 Mascota 3D</h1>
+            <p>Experiencia de Realidad Aumentada - Universidad de las Fuerzas Armadas ESPE</p>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <div class="info-section">
+                    <h2>Bienvenido a la Realidad Aumentada</h2>
+                    <p style="margin-bottom: 20px; font-size: 1.05em;">
+                        Experimenta la mascota de la carrera de Ingeniería de Software en tu espacio real con tecnología de realidad aumentada avanzada.
+                    </p>
+
+                    <div class="features">
+                        <div class="feature">
+                            <h3>📱 Interactivo</h3>
+                            <p>Visualiza el modelo 3D en tu entorno real en tiempo real</p>
+                        </div>
+                        <div class="feature">
+                            <h3>🎨 Texturizado</h3>
+                            <p>Modelo completamente coloreado y detallado</p>
+                        </div>
+                        <div class="feature">
+                            <h3>🔄 Rotable</h3>
+                            <p>Gira e interactúa con el modelo libremente</p>
+                        </div>
+                        <div class="feature">
+                            <h3>⚡ Rápido</h3>
+                            <p>Carga optimizada para todos los dispositivos</p>
+                        </div>
+                    </div>
+
+                    <div class="instructions">
+                        <h3>📋 Cómo usar:</h3>
+                        <ol>
+                            <li><strong>Abre desde Android con Chrome</strong> (no modo incógnito)</li>
+                            <li><strong>Presiona "Iniciar Realidad Aumentada"</strong></li>
+                            <li><strong>Acepta permisos de cámara</strong> cuando el sistema lo pida</li>
+                            <li><strong>Se abrirá Scene Viewer</strong> con la cámara real</li>
+                            <li><strong>Coloca y escala el modelo</strong> con los gestos del teléfono</li>
+                        </ol>
+                    </div>
+
+                    <div class="tech-section">
+                        <h3>⚙️ Tecnologías utilizadas</h3>
+                        <p>
+                            Este proyecto usa tecnologías pensadas para que la experiencia funcione de forma rápida y directa desde el celular,
+                            sin instalar una aplicación extra. La idea es que el usuario solo abra el enlace, escanee el código QR y vea el modelo
+                            3D en su entorno real con ayuda de la cámara.
+                        </p>
+                        <ul class="tech-list">
+                            <li><strong>WebAR:</strong> realidad aumentada desde el navegador, sin descargar app.</li>
+                            <li><strong>Android + cámara:</strong> el teléfono usa la cámara para superponer el modelo 3D en el entorno real.</li>
+                            <li><strong>Código QR:</strong> funciona como acceso inmediato al proyecto, llevando al usuario directamente a la página.</li>
+                            <li><strong>Modelo optimizado para móvil:</strong> el archivo 3D está preparado para cargar más rápido y verse mejor en celulares.</li>
+                        </ul>
+                        <p>
+                            En resumen, la web muestra una vista 3D del personaje y, en dispositivos compatibles, permite abrir la experiencia
+                            de realidad aumentada para observar el modelo como si estuviera delante de la persona.
+                        </p>
+                    </div>
+
+                    <button id="arLaunch" class="ar-button" onclick="launchAR()">🚀 Iniciar Realidad Aumentada</button>
+
+                    <div class="viewer-shell">
+                        <model-viewer
+                            id="viewer"
+                            src="./saludogaymer.glb"
+                            alt="Mascota 3D de Ingeniería de Software"
+                            camera-controls
+                            auto-rotate
+                            shadow-intensity="1"
+                            ar
+                            ar-modes="scene-viewer webxr quick-look"
+                            ar-scale="auto"
+                            ar-placement="floor"
+                            reveal="auto">
+                        </model-viewer>
+                        <div id="viewerStatus" class="viewer-status">Cargando modelo 3D...</div>
+                    </div>
+
+                    <div class="qr-section">
+                        <p style="font-size: 0.9em; color: #999; margin-top: 20px;">
+                            💡 Consejo: Para AR usa Android + Chrome. En otros equipos se mostrará vista 3D.
+                        </p>
+                        <div id="qrcode"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🎓 Universidad de las Fuerzas Armadas ESPE - Carrera de Ingeniería de Software</p>
+            <p style="font-size: 0.85em; margin-top: 10px;">Proyecto: Modelo 3D con Realidad Aumentada | NRC: 30745 | Tutor: Ing. Cristian Andrés Cola Pérez</p>
+        </div>
+    </div>
+
+    <script>
+        // Generar código QR
+        const url = window.location.href;
+        new QRCode(document.getElementById('qrcode'), {
+            text: url,
+            width: 150,
+            height: 150,
+            colorDark: '#000',
+            colorLight: '#fff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        const viewer = document.getElementById('viewer');
+        const viewerStatus = document.getElementById('viewerStatus');
+        const arLaunch = document.getElementById('arLaunch');
+
+        viewer.addEventListener('load', () => {
+            viewerStatus.textContent = 'Modelo cargado. Listo para iniciar AR.';
+        });
+
+        viewer.addEventListener('error', () => {
+            viewerStatus.textContent = 'No se pudo cargar el modelo. Verifica saludogaymer.glb en la raiz del sitio.';
+            arLaunch.disabled = true;
+        });
+
+        viewer.addEventListener('ar-status', (event) => {
+            if (event.detail.status === 'session-started') {
+                viewerStatus.textContent = 'Sesion AR iniciada correctamente.';
+            }
+            if (event.detail.status === 'failed') {
+                viewerStatus.textContent = 'No se pudo iniciar AR en este dispositivo/navegador.';
+            }
+        });
+
+        function launchAR() {
+            if (!viewer) {
+                return;
+            }
+
+            if (viewer.canActivateAR) {
+                viewer.activateAR();
+                return;
+            }
+
+            viewerStatus.textContent = 'AR no disponible aqui. Usa Android + Chrome para camara real.';
+            alert('Para realidad aumentada real usa Android con Google Chrome y abre este mismo enlace HTTPS.');
+        }
+
+        // Verificar compatibilidad
+        window.addEventListener('load', function() {
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const isChrome = /Chrome/i.test(navigator.userAgent) && !/Edg|OPR/i.test(navigator.userAgent);
+
+            if (isAndroid && isChrome) {
+                viewerStatus.textContent = 'Dispositivo compatible detectado. Puedes iniciar AR.';
+            } else {
+                viewerStatus.textContent = 'Vista 3D disponible. Para AR real usa Android + Chrome.';
+            }
+        });
+    </script>
+</body>
+</html>

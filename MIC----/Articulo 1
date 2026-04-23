@@ -1,0 +1,405 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.21 of 2022/01/12
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encondings may result in incorrect characters.
+%
+\usepackage{graphicx}
+\usepackage{subcaption} % en el preámbulo
+
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following two lines
+% to display URLs in blue roman font according to Springer's eBook style:
+%\usepackage{color}
+%\renewcommand\UrlFont{\color{blue}\rmfamily}
+%\urlstyle{rm}
+%
+\begin{document}
+%
+\title{Evaluation of Random Forest - Deep Neural Network for Intrusion Detection in Network Traffic of the CSE-CIC-IDS2018 Dataset}
+%
+\titlerunning{Evaluation of Random Forest - Deep Neural Network}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Mateo Medranda Valladares\inst{1}\orcidID{0000-1111-2222-3333} \and
+Bryan Quispe\inst{2,3}\orcidID{1111-2222-3333-4444} \and
+Third Author\inst{3}\orcidID{2222--3333-4444-5555}}
+%
+\authorrunning{F. Author et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\institute{Universidad de las Fuerzas Armadas ESPE, Sangolquí, Ecuador \and
+Springer Heidelberg, Tiergartenstr. 17, 69121 Heidelberg, Germany
+\email{lncs@springer.com}\\
+\url{http://www.springer.com/gp/computer-science/lncs} \and
+ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
+\email{\{abc,lncs\}@uni-heidelberg.de}}
+%
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+In recent years, the increase in cyberattacks on corporate networks has driven the use of machine learning methods to identify intrusions. In this study, we analyze the performance of two models: Random Forest (RF) and Deep Neural Network (DNN)—applied to the detection of malicious traffic using the dataset CSE-CIC-IDS2018. We followed the CRISP-DM methodology, which ranged from data cleaning and the selection of key features to balancing and class clustering to address the imbalance in the dataset. We tested both models in two training rounds and evaluated them using metrics such as accuracy, recall, and F1-score. In the end, Random Forest stood out with an overall accuracy of 94.55\%, offering a more robust balance across the different classes. On the other hand, the DNN, thanks to the weights assigned to the classes, significantly improved at detecting less common attacks—reaching a recall of 96\% for Web Attacks—but this came at the cost of slightly lowering the overall accuracy. This highlights the typical trade-off between broad accuracy and greater sensitivity toward minority classes.
+\keywords{Intrusion Detection  \and Random Forest \and Deep Neural Network \and CSE-CIC-IDS2018 \and Network Traffic}
+\end{abstract}
+%
+%
+%
+\section{Introduction}
+In recent years, interest in artificial intelligence, data processing, and the use of corporate networks for access control and management has grown steadily [10]. As technology has evolved, so have intrusions and attacks. These unauthorized intrusions through network traffic compromise core security properties — confidentiality, integrity, and availability of data [23]. This makes intrusion detection models a critical research topic; a sufficiently accurate model can prevent financial losses caused by unauthorized access, or reputational damage resulting from availability attacks on a service.
+
+Previous studies on intrusion classification models use the CSE-CIC-IDS2018 dataset, but focus narrowly on DDoS and DoS attacks [5, 7], or on binary classification [22]. The performance of minority classes within Random Forest (RF) and Deep Neural Network (DNN) models remains largely unexplored. This dataset simulates a real-world environment to capture attack data, producing evidence of network traffic patterns that supports the development of Intrusion Detection Systems (IDS).
+
+This study evaluates the accuracy of RF and DNN in detecting intrusions based on network traffic using the CSE-CIC-IDS2018 dataset. Results are compared across two iterations, with both models focused on detecting grouped dataset classes.
+
+The paper is structured as follows: a theoretical framework, a materials and methods section, a results section, a discussion section, and a conclusions section.
+
+\subsection{Intrusion Detection System (IDS)}
+An Intrusion Detection System (IDS) is a fundamental instrument for the security and protection of Internet of Things (IoT) devices. It is designed to identify both external and internal attacks on networks or computer systems, often outperforming traditional firewalls [1, 2]. Recent integration of advanced techniques such as Federated Learning and Explainable Artificial Intelligence (XAI) has improved transparency and privacy in these systems, addressing key limitations of conventional Deep Learning (DL) approaches [12].
+\\
+At its core, an IDS collects and processes data to generate alerts through a dedicated mechanism; those alerts are then forwarded to a network analyst for thorough investigation [3, 17].
+IDS are classified into four methods: Signature-Based IDS (SIDS), Anomaly-Based IDS (AIDS), Specification-Based IDS (SpIDS), and Hybrid IDS (HyIDS). In practice, however, two detection approaches dominate: signature-based and anomaly-based methods [1].
+\\
+SIDS operates through abuse detection — it matches intrusion signatures against known patterns stored in a database. This yields highly effective and precise detection of known attacks, with low false positive rates, but renders the system ineffective against unknown threats [21]. AIDS, by contrast, is behavior-based detection. It monitors system activity logs and flags deviations from normal behavior, making it capable of detecting unknown, insider, and zero-day attacks — though typically at the cost of higher false positive rates [1, 16].
+\\
+AIDS are critical precisely because both known and, above all, unknown attack vectors represent a major cybersecurity threat today. These systems work by building a statistical distribution of intrusion patterns through deep analysis of transmitted data, enabling malware identification [1, 15].
+
+\subsection{Taxonomy of Common Attacks in Datasets}
+IDS are typically evaluated and trained using datasets containing examples of both benign and malicious traffic, though these datasets are most often imbalanced — with approximately 98\% normal traffic and only 2\% classified as malicious attacks [1, 18]. The following are the attack types most commonly found in cybersecurity datasets:
+\begin{itemize}
+\item \textbf{Brute Force attacks:} unauthorized access obtained through password-guessing techniques.
+\item \textbf{Botnet attacks:} a collection of compromised devices controlled remotely, used to carry out DoS and DDoS attacks.
+\item \textbf{DoS attacks:} temporary disruption of network services by flooding them with traffic, exhibiting sequential patterns [5].
+\item \textbf{DDoS attacks:} server overload originating from multiple sources simultaneously; application-layer variants operate at low frequency.
+\item \textbf{Infiltration attacks:} unauthorized network access obtained from within the perimeter [13].
+\item \textbf{Probing attacks:} identification of network weaknesses through port scanning and IP address enumeration.
+\item \textbf{Injection attacks:} insertion of malicious commands into a system, such as SQL injection or Cross-Site Scripting (XSS).
+\end{itemize}
+
+\subsection{Characterization of the CSE-CIC-IDS2018 Dataset }
+
+The CSE-CIC-IDS2018 dataset substantially supersedes older benchmarks such as KDD99 and NSL-KDD, given the constant evolution of cyberattacks [3, 4]. Recent studies highlight its suitability for evaluating cloud environments and distributed architectures, owing to the diversity of attack scenarios it covers [19].
+Network features are extracted at either the packet level (PCAP) or the flow level (NetFlow). The most relevant features include:
+\begin{itemize}
+\item \textbf{Source and destination ports:} used as flow keys.
+\item \textbf{Flags:} particularly useful for detecting DoS and probing attacks.
+\item \textbf{Connection duration:} a key indicator for identifying U2R and R2L attacks.
+\item \textbf{Class imbalance:} benign traffic constitutes the majority class, while attack traffic represents the minority [14].
+\end{itemize}
+
+\subsection{Machine Learning: Random Forest (RF) }
+
+The RF algorithm is frequently selected as a baseline model due to its high effectiveness in intrusion classification on complex datasets such as CSE-CIC-IDS-2017 and CSE-CIC-IDS2018 [2, 7].
+\begin{itemize}
+\item \textbf{Foundations and Ensemble Learning (Bagging):} RF builds multiple decision trees using random subsets of the data; the final classification is obtained by majority voting, optimizing split criteria with metrics such as Gini impurity or Entropy [1, 7].
+\item \textbf{Robustness and Overfitting Mitigation:} variance is reduced and overfitting avoided by averaging decorrelated trees and selecting random feature subsets at each split [1, 2].
+\item \textbf{Hyperparameters:} number of estimators and maximum tree depth [7, 16].
+\end{itemize}
+
+\subsection{Deep Learning: Deep Neural Network (DNN)}
+
+DNNs represent the complex model proposal in this study, justified by their capacity to automatically extract latent and hierarchical features [3, 5]. Recent research has combined DNNs with techniques such as LSTM or Autoencoders to improve detection accuracy on complex attacks [20].
+\begin{itemize}
+\item \textbf{Architecture and 1D Adaptation:} a 1D DNN is implemented to process feature vectors as sequences, enabling the detection of local correlations [5, 6].
+\item \textbf{Layers:} Convolutional, Pooling, Flatten, and Dense [4, 5].
+\item \textbf{Activation Functions:} ReLU in hidden layers and Softmax at the output layer [6, 9].
+\end{itemize}
+
+\subsection{Preprocessing Techniques and Feature Engineering}
+
+Preprocessing optimizes training time and preserves objectivity in model evaluation [5]. At large data volumes, normalization and encoding become necessary steps [6, 15]. Feature selection has also proven effective — it reduces noise introduced by high dimensionality and improves model generalization [7, 14].
+
+\subsubsection{Cleaning and Data Encoding}
+
+Removing inconsistent or null values is essential to avoid introducing bias into the model [8]. Encoding is equally necessary — it transforms categorical variables into numerical representations that learning algorithms can interpret [6].
+
+\subsubsection{Class Balancing}
+
+The CSE-CIC-IDS2018 dataset exhibits significant class imbalance, making a balancing technique necessary to control the large disparity between classes [6, 1]. Methods such as SMOTE and its variants (e.g., SMOTEBoost) are frequently applied to mitigate bias toward the majority class [16, 15].
+
+\subsection{Evaluation Metrics}
+
+\subsubsection{Accuracy}
+El accuracy mide la proporción total de predicciones correctas.
+\subsubsection{Recall}
+Mide la capacidad del modelo para detectar todos los casos positivos reales.
+\subsubsection{F1-score}
+Es la media armónica entre precisión y recall.
+\subsubsection{Curva de Roc}
+Representa la tasa de verdaderos positivos frente a la tasa de falsos positivos.
+
+
+\section{Methods and Materials}
+
+For the development of the Machine Learning (ML) models, the Cross-Industry Standard Process for Data Mining (CRISP-DM) methodology was followed, along with a workflow defined by Figure \ref{fig1:arquitectura}, representing the steps carried out to obtain acceptable results.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{Architecture.png}
+\caption{Defined architecture for problem development} \label{fig1: arquitectura}
+\end{figure}
+
+\subsection{Business Understanding}
+
+The Business Understanding phase focuses on defining the project's objectives and requirements from both a cybersecurity and organizational value perspective. The primary goal is to build a robust system capable of detecting intrusions in computer networks to mitigate financial and operational risks. Given the rise in sophisticated attacks reported across the industry [6], there is a critical need for automated systems that reduce the burden on security analysts and minimize incident response time. Project success is defined by the model's ability to distinguish with high accuracy between benign and malicious traffic — minimizing false positives that could disrupt legitimate operations.
+
+\subsection{Data Understanding}
+
+This phase involves the collection and exploration of the CSE-CIC-IDS2018 dataset. The dataset was generated by the \textit{Communications Security Establishment} (CSE) and the \textit{Canadian Institute for Cybersecurity} (CIC) on AWS, simulating a real network with a diverse topology. It contains approximately 16 million records and covers seven distinct attack scenarios: Brute-force, Heartbleed, Botnet, DoS, DDoS, Web attacks, and Infiltration [3, 18].
+
+Each record consists of 80 network flow features extracted with CICFlowMeter — including flow duration, packet statistics, and TCP flags. Initial data exploration reveals a strong class imbalance, where benign traffic significantly predominates over attack traffic. This is typical of real-world environments, but demands specific preprocessing strategies [8].
+
+\subsection{Preprocessing}
+
+Preprocessing was carried out in two phases: data cleaning and data transformation, following the workflow presented in Figure~\ref{fig:preprocesamiento}.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{Preprocessing.png}
+\caption{Defined architecture for problem development} \label{fig1: arquitectura}
+\end{figure}
+
+Data cleaning began with the removal of inconsistent values. Outliers were identified — notably in the "flow duration" feature, which contained an extremely high negative value that hindered distribution analysis. All feature values were also enforced to be of numeric type.
+
+After this cleaning stage, the dataset still exhibited severe class imbalance, so benign traffic records were randomly undersampled to match the total number of attack records and prevent training bias. This balancing step follows common practice in imbalanced intrusion-detection datasets [1, 18, 22, 23], while the prior cleaning stage addresses inconsistent or noisy values [8]. The final count yielded 4,341,486 records: 2,170,743 representing benign traffic and the remainder representing malicious traffic, resulting in an exact fifty-fifty split.
+
+For data transformation, feature importance analysis was performed using the RF algorithm [10]. The dataset originally contains 79 features, excluding the target variable \texttt{Label}, so reducing this number to retain only the most representative features was necessary. Using Python's Scikit-learn library, a "RandomForestClassifier" was applied with 100 decision trees, a maximum depth of 10, and a random state of 42. The selected features are shown in Figure~\ref{fig:variablesSeleccionadas}.
+Finally, due to the presence of very small minority classes, class grouping was applied — reducing the original 13 classes to 6 [22, 23].
+
+\begin{figure}
+\includegraphics[width=\textwidth]{Seleccion variables 2.0.png}
+\caption{Defined architecture for problem development} \label{fig1: arquitectura}
+\end{figure}
+
+\subsection{Modeling}
+
+The modeling phase is divided into two components: RF and DNN.
+
+\subsubsection{Random Forest}
+The RF model is notably resilient to class imbalance [11], making it a powerful tool to apply on the cleaned CSE-CIC-IDS2018 dataset. To ensure the evaluation reflects real performance and prevent data leakage, a stratified hold-out validation scheme was applied — partitioning the cleaned dataset into 70\% for training and 30\% for testing. Stratification was enforced to ensure that the proportion of minority classes remained identical across both sets.
+Model construction followed two iterative stages:
+\begin{itemize}
+\item \textbf{Iteration 1:} A baseline model was trained using standard hyperparameters [24] and class weight balancing to focus training on minority classes. While it successfully detected most malicious traffic, it produced a very high false positive rate for the infiltration class.
+\item \textbf{Iteration 2:} Hyperparameter optimization was performed on a 10\% data sample using "RandomizedSearchCV" with three-fold cross-validation, targeting maximum depth, number of decision trees, and split criteria. The resulting configuration was: 100 trees, maximum depth of 20, minimum 5 samples per split, and removal of forced class balancing.
+\end{itemize}
+Results for both experiments are reported in Table~\ref{tab:metricas_iteracion_1} and Table~\ref{tab:metricas_iteracion_2}.
+\subsubsection{Deep Neural Network}
+The DNN model achieved an overall accuracy of 86.32\% — lower than RF, but more precise on specific predictions. Per-class analysis shows the model meets its primary objective: full detection of attacks, including minority and complex classes.
+\begin{itemize}
+\item \textbf{Iteration 1:} The DNN was trained on the cleaned and balanced data, requiring approximately one and a half hours of training time. The model reached 94\% precision on specific predictions; however, it failed to detect Web Attacks entirely, yielding a recall of 0\%. Despite the high overall index, this made the model ineffective in practice. Training used standard hyperparameters as the baseline configuration [25].
+\item \textbf{Iteration 2:} The model was adjusted to explicitly prevent minority classes from being ignored. This intervention raised Web Attack detection to 96\%, representing a substantial improvement in the overall detection pipeline.
+\end{itemize}
+\subsection{Evaluation}
+A general assessment of the results obtained across the different modeling iterations was conducted, comparing the performance of both approaches — RF and DNN — from both a technical standpoint and against the objectives defined at the project's outset.
+Both models achieve strong performance, with overall accuracy above 86\%. RF delivered higher general accuracy and better balance across the most frequent classes. DNN, by applying class weights, achieved superior detection of underrepresented attack types — specifically Web Attacks and Infiltration — though at the cost of a lower global accuracy.
+
+\section{Results}
+
+This section covers the performance of the RF and DNN models and the best result obtained on the network traffic from the CSE-CIC-IDS2018 dataset.
+\subsection{Model Performance}
+The following tables present the performance metrics (precision, recall, F1-score), along with the hyperparameters and modifications applied in each iteration for both the RF and DNN models.
+\subsubsection{RF Results}
+In the first RF iteration, results show an overall accuracy of 86.08\%. Table~\ref{tab:metricas_iteracion_1} details the evaluated metrics: benign traffic recall reaches 78\%, while infiltration emerges as the most problematic class, with a precision of 21\% and a recall of 77\%.
+
+\begin{table}
+\caption{Classification Results -- Iteration 1 (Baseline Model)}\label{tab:metricas_iteracion_1}
+\begin{tabular*}{\textwidth}{|l|@{\extracolsep{\fill}}c|c|c|r|}
+\hline
+\textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\hline
+Benign       & 0.98 & 0.78 & 0.87 & 651,223 \\
+Bot          & 1.00 & 1.00 & 1.00 & 85,857  \\
+Brute Force  & 0.83 & 0.96 & 0.89 & 114,283 \\
+DoS/DDoS     & 0.99 & 0.94 & 0.97 & 402,613 \\
+Infiltration & 0.21 & 0.77 & 0.33 & 48,192  \\
+Web Attacks  & 0.52 & 0.94 & 0.67 & 278     \\
+\hline
+\textbf{Global Accuracy} & \multicolumn{4}{c|}{\textbf{0.8608 (86.08\%)}} \\
+\hline
+\end{tabular*}
+\end{table}
+In the second iteration, detection of benign traffic improves. However, infiltration remains problematic — recall drops to 21\%. Overall accuracy reaches 94.55\%, but infiltration detection degrades considerably, as shown in Table~\ref{tab:metricas_iteracion_2}.
+\begin{table}
+\caption{Classification Results -- Iteration 2 (Optimized Model)}\label{tab:metricas_iteracion_2}
+\begin{tabular*}{\textwidth}{|l|@{\extracolsep{\fill}}c|c|c|r|}
+\hline
+\textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\hline
+Benign       & 0.94 & 0.99 & 0.97 & 651,223 \\
+Bot          & 1.00 & 1.00 & 1.00 & 85,857  \\
+Brute Force  & 0.84 & 0.94 & 0.89 & 114,283 \\
+DoS/DDoS     & 0.98 & 0.95 & 0.97 & 402,613 \\
+Infiltration & 0.63 & 0.21 & 0.32 & 48,192  \\
+Web Attacks  & 0.99 & 0.67 & 0.80 & 278     \\
+\hline
+\textbf{Global Accuracy} & \multicolumn{4}{c|}{\textbf{0.9455 (94.55\%)}} \\
+\hline
+\end{tabular*}
+\end{table}
+The ROC curve in Figure~\ref{fig:curvaRocRandomForest} graphically illustrates the model's tendency toward true positive and false positive detection. Infiltration is again the most problematic class.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth]{Curva_ROC.png}
+    \caption{ROC Curve}
+    \label{fig:roc}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth]{Matriz_Confusion.png}
+    \caption{Confusion Matrix}
+    \label{fig:confusion}
+  \end{subfigure}
+  \caption{Model Results}
+  \label{fig:resultados}
+\end{figure}
+
+
+\subsubsection{DNN Results}
+
+In the first iteration, a DNN model was trained on the full dataset without applying any balancing technique. The model achieved a global accuracy of 94\%; however, per-class analysis revealed a strong bias — most notably for Web Attacks, which yielded a Recall of 0\%. The model optimized its statistical performance by completely ignoring the least frequent threats.
+
+\begin{table}
+\caption{Initial Results: DNN without Class Weights (Imbalanced)}\label{tab:dnn_sin_pesos}
+\begin{tabular*}{\textwidth}{|l|@{\extracolsep{\fill}}c|c|c|r|}
+\hline
+\textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\hline
+Benign       & 0.94 & 0.99 & 0.97 & 651,223 \\
+Bot          & 1.00 & 1.00 & 1.00 & 85,857  \\
+Brute Force  & 0.82 & 0.95 & 0.88 & 114,283 \\
+DoS/DDoS     & 0.98 & 0.94 & 0.96 & 402,613 \\
+Infiltration & 0.66 & 0.13 & 0.22 & 48,192  \\
+Web Attacks  & \textbf{0.00} & \textbf{0.00} & 0.00 & 278     \\
+\hline
+\textbf{Global Accuracy} & \multicolumn{4}{c|}{\textbf{0.94 (94\%)}} \\
+\hline
+\end{tabular*}
+\end{table}
+
+In the second iteration, Class Weights were applied to address this issue — assigning higher penalties to misclassifications in minority classes such as Web Attacks. The impact was immediate and substantial. Web Attack detection rose from 0\% to 96\%, and infiltration identification improved to 37\%. Global accuracy dropped to 86.32\% due to an increase in false positives, but this trade-off produces a more robust system that prioritizes effective threat detection.
+\begin{table}
+\caption{Comparative Impact of Class Weights on the DNN Model}\label{tab:comparativa_dnn_cambios}
+\begin{tabular*}{\textwidth}{|l|@{\extracolsep{\fill}}c|c|l|}
+\hline
+\textbf{Metric} & \textbf{Without Weights} & \textbf{With Weights} & \textbf{Impact / Change} \\
+\hline
+Global Accuracy        & \textbf{94.00\%} & 86.32\%          & $\downarrow$ 7.68\% \\
+Recall - Web Attacks   & 0.00\%           & \textbf{96.00\%} & $\uparrow$ \textbf{Full Detection} \\
+Recall - Infiltration  & 13.00\%          & \textbf{37.00\%} & $\uparrow$ Significant improvement \\
+Recall - Benign        & 99.00\%          & 84.00\%          & $\downarrow$ Higher sensitivity \\
+\hline
+\end{tabular*}
+\end{table}
+
+\subsection{Best Result Obtained}
+
+The best overall result was achieved by RF Iteration 2, reaching an accuracy of 94.55\%. Compared to DNN Iteration 2 (86.32\%), the RF model demonstrates higher general precision, reflecting a stronger ability to correctly classify the majority of instances. The optimized DNN, however, prioritizes minority class detection — particularly Web Attacks (recall 96\%) — at the cost of reduced global accuracy due to increased false positives.
+
+\section{Discussion}
+
+This work applied RF and DNN models to detect and classify potential intrusions in corporate networks using records from the CSE-CIC-IDS2018 dataset.
+A distinguishing aspect of this study is the use of all malicious classes — not limited to DoS/DDoS variants — providing insight into RF behavior on classes such as Infiltration. Due to its high similarity with normal traffic, infiltration-type attacks are effectively camouflaged, an anomaly clearly visible in Figure~\ref{fig:matrizConfusion}.
+The RF model's superior performance (94.55\%) over DNN (86.32\%) suggests that RF is more resilient to severe class imbalance, where malicious activity represents a minority relative to benign traffic. This aligns with the primary RF property highlighted in [11], where the main differentiation lies in the application of hybrid methods to further enhance detection capability.
+The use of an RF classifier for feature selection and class grouping contrasts with several recent studies [11, 23, 10], with notable variations in this work — for instance, the number of trees used in the feature selection RF. While [10] employs 1,000 trees, this study explores a configuration of 100 trees.
+
+\section{Conclusions}
+
+Experiments conducted on the CSE-CIC-IDS2018 dataset demonstrate the superior effectiveness of the RF model over DNN, evaluated using standard classification metrics. This outcome is attributed to RF's inherent resilience in detecting minority classes.
+The RF model yields promising results for intrusion detection based on network traffic data.
+
+Future work will evaluate the models on other widely used datasets — CSE-CIC-IDS2017, InSDN, NSL-KDD, and UNSW-NB15 — and explore hybrid approaches to improve upon the results obtained here.
+
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+% \bibliographystyle{splncs04}
+% \bibliography{mybibliography}
+%
+\begin{thebibliography}{8}
+\bibitem{ahsan2025systematic}
+M.~S.~Ahsan, S.~Islam, and S.~Shatabda, ``A systematic review of metaheuristics-based and machine learning-driven intrusion detection systems in IoT,'' \emph{Swarm Evol Comput}, vol.~96, Jul.~2025.
+
+\bibitem{maseer2021benchmarking}
+Z.~K.~Maseer, R.~Yusof, N.~Bahaman, S.~A.~Mostafa, and C.~F.~M.~Foozy, ``Benchmarking of Machine Learning for Anomaly Based Intrusion Detection Systems in the CICIDS2017 Dataset,'' \emph{IEEE Access}, vol.~9, pp.~22351--22370, 2021.
+
+\bibitem{gumusbas2021comprehensive}
+D.~Gümüşbaş, T.~Yıldırım, A.~Genovese, and F.~Scotti, ``A Comprehensive Survey of Databases and Deep Learning Methods for Cybersecurity and Intrusion Detection Systems,'' \emph{IEEE Syst J}, vol.~15, no.~2, pp.~1717--1731, 2021.
+
+\bibitem{aljuaid2024deep}
+W.~H.~Aljuaid and S.~S.~Alshamrani, ``A Deep Learning Approach for Intrusion Detection Systems in Cloud Computing Environments,'' \emph{Applied Sciences (Switzerland)}, vol.~14, no.~13, 2024.
+
+\bibitem{hnamte2024ddos}
+V.~Hnamte, A.~A.~Najar, H.~Nhung-Nguyen, J.~Hussain, and M.~N.~Sugali, ``DDoS attack detection and mitigation using deep neural network in SDN environment,'' \emph{Comput Secur}, vol.~138, Mar.~2024.
+
+\bibitem{zhang2025se}
+K.~Zhang \emph{et al.}, ``SE-DWNet: An Advanced ResNet-Based Model for Intrusion Detection with Symmetric Data Distribution,'' \emph{Symmetry (Basel)}, vol.~17, no.~4, Apr.~2025.
+
+\bibitem{deng2024network}
+M.~Deng, C.~Sun, Y.~Kan, H.~Xu, X.~Zhou, and S.~Fan, ``Network Intrusion Detection Based on Deep Belief Network Broad Equalization Learning System,'' \emph{Electronics (Switzerland)}, vol.~13, no.~15, Aug.~2024.
+
+\bibitem{bingu2024performance}
+R.~Bingu, S.~Adinarayana, J.~S.~Dhatterwal, S.~Kavitha, E.~Patnala, and H.~R.~Sangaraju, ``Performance comparison analysis of classification methodologies for effective detection of intrusions,'' \emph{Comput Secur}, vol.~143, 2024.
+
+\bibitem{pingale2022remora}
+S.~V.~Pingale and S.~R.~Sutar, ``Remora whale optimization-based hybrid deep learning for network intrusion detection using CNN features,'' \emph{Expert Syst Appl}, vol.~210, Dec.~2022.
+
+\bibitem{vibhute2024deeplearning}
+A.~D.~Vibhute and V.~Nakum, ``Deep learning-based network anomaly detection and classification in an imbalanced cloud environment,'' \emph{Procedia Comput Sci}, Elsevier B.V., pp.~1636--1645, 2024, doi:~10.1016/j.procs.2024.01.161.
+
+\bibitem{resende2019survey}
+P.~A.~A.~Resende and A.~C.~Drummond, ``A survey of random forest based methods for intrusion detection systems,'' \emph{ACM Comput Surv}, ACM, vol.~51, no.~3, Jul.~2019, doi:~10.1145/3178582.
+
+\bibitem{Harshitha2025}
+C. Harshitha, D. Sendil Vadivu, and N. Rajagopalan, ``Federated Learning and XAI-based Intrusion Detection System,'' \emph{Journal of Computer Virology and Hacking Techniques}, vol. 21, no. 1, 2025.
+
+\bibitem{Alqahtani2024}
+A. Alqahtani, ``Active and Passive Intrusion Detection using CNN and Pascal Triangle,'' \emph{IEEE Access}, vol. 12, pp. 10234--10245, 2024.
+
+\bibitem{xiao2022hho}
+Y. Xiao, et al., ``Feature Selection based on Harris Hawks Optimization for Intrusion Detection,'' \emph{Computers \& Security}, vol. 118, 2022.
+
+\bibitem{hassan2025dbn}
+M. Hassan, et al., ``Deep Belief Network with SMOTE for Imbalanced Intrusion Detection,'' \emph{Journal of Information Security}, vol. 16, no. 2, 2025.
+
+\bibitem{dasari2025iov}
+R. Dasari, et al., ``Intrusion Detection in IoV using SMOTEBoost and Random Forest,'' \emph{Vehicular Communications}, vol. 39, 2025.
+
+\bibitem{shwaysh2026hybrid}
+K. Shwaysh, et al., ``Hybrid Model of Autoencoder and XGBoost for IDS,'' \emph{Future Generation Computer Systems}, vol. 150, 2026.
+
+\bibitem{sharma2025intelligent}
+T. Sharma and U. Datta, ``An Intelligent Intrusion Detection Using Deep Learning on CICIDS2018 for Cloud Security,'' \emph{Int. J. Adv. Res. Multidiscip. Trends}, 2025.
+
+\bibitem{kanimozhi2021artificial}
+V. Kanimozhi and T. P. Jacob, ``Artificial Intelligence outflanks all other machine learning classifiers in Network Intrusion Detection System on the realistic cyber dataset CSE-CIC-IDS2018,'' \emph{ICT Express}, vol. 7, no. 3, pp. 366--370, 2021.
+
+\bibitem{Abdulhammed2024}
+R. Abdulhammed, et al., ``Hybrid Deep Learning Network Intrusion Detection System Based on Convolutional Neural Network and Bidirectional Long Short-Term Memory,'' \emph{J. Adv. Inf. Technol.}, vol. 15, no. 2, 2024.
+
+\bibitem{Lin2023survey}
+W. Lin, et al., ``Intrusion Detection System Based on Machine Learning Techniques: A Survey,'' in \emph{Int. Conf. on Computer and Comm. Systems}, IEEE, 2023.
+
+\bibitem{Leevy2020survey}
+J. L. Leevy and T. M. Khoshgoftaar, ``A survey and analysis of intrusion detection models based on CSE-CIC-IDS2018 Big Data,'' \emph{Journal of Big Data}, vol. 7, no. 1, pp. 104, Nov. 2020.
+
+\bibitem{Bouidaine2025DLIDS}
+A. B. Bouidaine, D. Moussaoui, M. Hadjila, W. Ferhi, and M. H. Hachemi, ``Deep Learning-Based Anomaly and Intrusion Detection Using the CSE-CIC-IDS2018 Dataset,'' \emph{Engineering, Technology and Applied Science Research}, vol. 15, no. 4, pp. 24782--24787, Aug. 2025.
+
+\bibitem{Probst2018Tunability}
+P. Probst, B. Bischl, and A.-L. Boulesteix, ``Tunability: Importance of Hyperparameters of Machine Learning Algorithms,'' arXiv preprint arXiv:1802.09596, Oct. 2018.
+
+\bibitem{Domingos2012ML}
+P. Domingos, ``A Few Useful Things to Know about Machine Learning,'' \textit{Communications of the ACM}, vol. 55, no. 10, pp. 78--87, Oct. 2012.
+\end{thebibliography}
+\end{document}
