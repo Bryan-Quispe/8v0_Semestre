@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CiberHack 2025 — Hackathon de Ciberdefensa</title>
+<meta name="description" content="48 horas de ciberdefensa real. Hackathon multidisciplinario presencial: salud, infraestructura, logística y factor humano. Inscríbete ahora."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+/* ===================================================
+   RESET & ROOT
+=================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  --navy:       #071525;
+  --navy-2:     #0b1f38;
+  --navy-3:     #102847;
+  --cyan:       #00d4ff;
+  --cyan-dim:   rgba(0,212,255,.12);
+  --cyan-glow:  rgba(0,212,255,.25);
+  --orange:     #ff5c1a;
+  --white:      #ffffff;
+  --off:        #cdd8e8;
+  --muted:      #6b8aaa;
+  --border:     rgba(0,212,255,.14);
+  --glass:      rgba(255,255,255,.03);
+
+  --f-head: 'Bebas Neue', sans-serif;
+  --f-body: 'Outfit', sans-serif;
+  --f-mono: 'JetBrains Mono', monospace;
+
+  --ease: cubic-bezier(.4,0,.2,1);
+  --r: 14px;
+  --r-lg: 22px;
+}
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--f-body);
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ===================================================
+   SCROLLBAR
+=================================================== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--navy-3); border-radius: 3px; }
+
+/* ===================================================
+   UTILITY
+=================================================== */
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: .38em 1em;
+  background: var(--cyan-dim);
+}
+
+.sec-head {
+  margin-bottom: 3.5rem;
+}
+.sec-head h2 {
+  font-family: var(--f-head);
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  letter-spacing: .02em;
+  line-height: 1;
+  margin: .6rem 0 1rem;
+}
+.sec-head p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 540px;
+  line-height: 1.75;
+}
+.sec-head--center { text-align: center; }
+.sec-head--center p { margin: 0 auto; }
+
+.accent { color: var(--cyan); }
+.accent-o { color: var(--orange); }
+
+/* ===================================================
+   BUTTONS
+=================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: .92rem;
+  padding: .85em 2em;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all .28s var(--ease);
+  line-height: 1;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--cyan);
+  color: var(--navy);
+  box-shadow: 0 0 0 0 var(--cyan-glow);
+}
+.btn-primary:hover {
+  background: #26dcff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px var(--cyan-glow);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,.22);
+}
+.btn-ghost:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  transform: translateY(-2px);
+}
+.btn-sm {
+  font-size: .8rem;
+  padding: .6em 1.4em;
+  border-radius: 8px;
+}
+
+/* ===================================================
+   NAV
+=================================================== */
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1000;
+  transition: background .3s, box-shadow .3s;
+}
+.nav.scrolled {
+  background: rgba(7,21,37,.96);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 var(--border);
+}
+.nav__in {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.nav__logo {
+  font-family: var(--f-head);
+  font-size: 1.6rem;
+  letter-spacing: .04em;
+  flex-shrink: 0;
+}
+.nav__links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 2.2rem;
+}
+.nav__links a {
+  font-family: var(--f-mono);
+  font-size: .75rem;
+  letter-spacing: .08em;
+  color: var(--muted);
+  transition: color .22s;
+}
+.nav__links a:hover { color: var(--white); }
+.nav__cta { margin-left: .5rem; }
+
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: .3s;
+}
+.burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+.nav__mob {
+  display: none;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+  gap: 1.4rem;
+  background: rgba(7,21,37,.97);
+  border-top: 1px solid var(--border);
+}
+.nav__mob a {
+  font-size: 1rem;
+  color: var(--off);
+  font-weight: 500;
+}
+.nav__mob.open { display: flex; }
+
+/* ===================================================
+   HERO
+=================================================== */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 0 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 80% at 60% 40%, #000 30%, transparent 100%);
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+.blob-1 { width: 700px; height: 700px; background: rgba(0,212,255,.07); top: -200px; right: -180px; }
+.blob-2 { width: 500px; height: 500px; background: rgba(255,92,26,.05); bottom: 0; left: -150px; }
+.blob-3 { width: 300px; height: 300px; background: rgba(0,212,255,.06); top: 40%; left: 38%; }
+
+.hero__layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero__left {}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  color: var(--cyan);
+  margin-bottom: 1.6rem;
+  opacity: 0;
+  animation: fadeUp .7s var(--ease) .2s forwards;
+}
+.hero__eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1.5px;
+  background: var(--cyan);
+}
+
+.hero__title {
+  font-family: var(--f-head);
+  font-size: clamp(4rem, 7.5vw, 7rem);
+  letter-spacing: .02em;
+  line-height: .95;
+  margin-bottom: 1.8rem;
+  opacity: 0;
+  animation: fadeUp .8s var(--ease) .35s forwards;
+}
+.hero__title .line { display: block; overflow: hidden; }
+
+.hero__desc {
+  font-size: 1.1rem;
+  color: var(--off);
+  line-height: 1.8;
+  max-width: 470px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp .7s var(--ease) .5s forwards;
+}
+
+.hero__btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3.5rem;
+  opacity: 0;
+  animation: fadeUp .7s var(--ease) .62s forwards;
+}
+
+.hero__stats {
+  display: flex;
+  gap: 2.5rem;
+  opacity: 0;
+  animation: fadeUp .7s var(--ease) .74s forwards;
+}
+.hstat { display: flex; flex-direction: column; }
+.hstat__n {
+  font-family: var(--f-head);
+  font-size: 2.4rem;
+  letter-spacing: .02em;
+  color: var(--cyan);
+  line-height: 1;
+}
+.hstat__l {
+  font-family: var(--f-mono);
+  font-size: .65rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: .3rem;
+}
+
+/* Hero right — decorative card stack */
+.hero__right {
+  opacity: 0;
+  animation: fadeIn .9s var(--ease) .55s forwards;
+}
+.hero__card-stack {
+  position: relative;
+  height: 480px;
+}
+.hcard {
+  position: absolute;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1.8rem 2rem;
+  backdrop-filter: blur(10px);
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.hcard:hover { transform: translateY(-6px) !important; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+
+.hcard-1 {
+  top: 0; left: 0; right: 0;
+  background: linear-gradient(135deg, rgba(0,212,255,.08), rgba(0,212,255,.02));
+  border-color: rgba(0,212,255,.25);
+}
+.hcard-2 {
+  top: 190px; left: 30px; right: -20px;
+  background: linear-gradient(135deg, rgba(255,92,26,.06), rgba(0,0,0,0));
+  border-color: rgba(255,92,26,.2);
+  transform: rotate(1.5deg);
+}
+.hcard-3 {
+  top: 330px; left: -10px; right: 40px;
+  background: var(--glass);
+  border-color: var(--border);
+  transform: rotate(-1deg);
+}
+
+.hcard__tag {
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: .85rem;
+}
+.hcard__title {
+  font-family: var(--f-body);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+  line-height: 1.4;
+}
+.hcard__body {
+  font-size: .85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.hcard__alert {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  color: var(--orange);
+  border: 1px solid rgba(255,92,26,.25);
+  background: rgba(255,92,26,.08);
+  border-radius: 8px;
+  padding: .5em 1em;
+  margin-top: .8rem;
+}
+.hcard__dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulse 1.5s ease infinite;
+}
+@keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.5; transform:scale(.7); } }
+
+/* ===================================================
+   EJES
+=================================================== */
+.ejes { padding: 7rem 0; background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%); }
+
+.ejes__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.ecard {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 2.5rem;
+  overflow: hidden;
+  transition: transform .3s var(--ease), border-color .3s, box-shadow .3s;
+}
+.ecard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--cyan-dim), transparent 60%);
+  opacity: 0;
+  transition: opacity .3s;
+  border-radius: var(--r-lg);
+  pointer-events: none;
+}
+.ecard:hover { transform: translateY(-5px); border-color: rgba(0,212,255,.32); box-shadow: 0 24px 80px rgba(0,0,0,.35); }
+.ecard:hover::after { opacity: 1; }
+
+.ecard__num {
+  font-family: var(--f-head);
+  font-size: 5rem;
+  letter-spacing: .02em;
+  color: rgba(0,212,255,.1);
+  position: absolute;
+  top: 1.2rem;
+  right: 1.8rem;
+  line-height: 1;
+}
+.ecard__icon {
+  font-size: 2.5rem;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+.ecard__title {
+  font-family: var(--f-body);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+.ecard__body {
+  font-size: .95rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+.ecard__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  list-style: none;
+}
+.ecard__pills li {
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  letter-spacing: .06em;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: .28em .8em;
+}
+
+/* ===================================================
+   INFO SECTION
+=================================================== */
+.info { padding: 7rem 0; background: var(--navy); }
+
+.info__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.iblock {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 2rem 1.75rem;
+  transition: border-color .3s, transform .3s;
+}
+.iblock:hover { border-color: rgba(0,212,255,.28); transform: translateY(-3px); }
+
+.iblock__icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+.iblock__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: .6rem;
+  line-height: 1.3;
+}
+.iblock__body {
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.iblock__body strong { color: var(--off); }
+
+/* ===================================================
+   QUÉ LLEVAR
+=================================================== */
+.llevar { padding: 7rem 0; background: linear-gradient(180deg, var(--navy-2) 0%, var(--navy) 100%); }
+
+.llevar__wrap {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.llevar__sticky { position: sticky; top: 100px; }
+.llevar__sticky .chip { margin-bottom: 1.2rem; }
+.llevar__sticky h2 {
+  font-family: var(--f-head);
+  font-size: clamp(2.8rem,4vw,3.8rem);
+  letter-spacing: .02em;
+  line-height: 1;
+  margin-bottom: 1.2rem;
+}
+.llevar__sticky p { color: var(--muted); font-size: 1rem; line-height: 1.75; margin-bottom: 2rem; }
+
+.llevar__warn {
+  background: rgba(255,92,26,.07);
+  border: 1px solid rgba(255,92,26,.2);
+  border-radius: var(--r);
+  padding: 1rem 1.25rem;
+  font-size: .84rem;
+  color: #d07050;
+  line-height: 1.6;
+}
+.llevar__warn strong { color: var(--orange); }
+
+/* Checklist */
+.clist { display: flex; flex-direction: column; gap: .85rem; }
+
+.citem {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  transition: border-color .28s, background .28s, transform .28s;
+}
+.citem:hover {
+  border-color: rgba(0,212,255,.25);
+  background: rgba(0,212,255,.03);
+  transform: translateX(4px);
+}
+.citem--must { border-left: 3px solid var(--cyan); }
+.citem--rec  { border-left: 3px solid rgba(255,255,255,.18); }
+.citem--bio  { border-left: 3px solid var(--orange); }
+
+.citem__ico {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  background: rgba(255,255,255,.04);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.citem__text strong {
+  display: block;
+  font-size: .97rem;
+  font-weight: 600;
+  margin-bottom: .18rem;
+  line-height: 1.35;
+  color: var(--white);
+}
+.citem__text small {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.5;
+  display: block;
+}
+
+.badge {
+  font-family: var(--f-mono);
+  font-size: .58rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .32em .8em;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-must { background: rgba(0,212,255,.1); color: var(--cyan); border: 1px solid rgba(0,212,255,.2); }
+.badge-rec  { background: rgba(255,255,255,.05); color: var(--muted); border: 1px solid rgba(255,255,255,.1); }
+.badge-bio  { background: rgba(255,92,26,.1); color: var(--orange); border: 1px solid rgba(255,92,26,.2); }
+
+/* ===================================================
+   TIMELINE
+=================================================== */
+.timeline { padding: 7rem 0; background: var(--navy); }
+
+.tline {
+  max-width: 750px;
+  margin: 0 auto;
+  position: relative;
+  padding-left: 4rem;
+}
+.tline::before {
+  content: '';
+  position: absolute;
+  left: 23px;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: linear-gradient(180deg, var(--cyan), rgba(0,212,255,.1));
+}
+
+.titem {
+  position: relative;
+  padding-bottom: 3rem;
+}
+.titem:last-child { padding-bottom: 0; }
+
+.titem__dot {
+  position: absolute;
+  left: -4rem;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--navy-2);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--cyan);
+  transition: background .3s, border-color .3s;
+  z-index: 1;
+}
+.titem:hover .titem__dot {
+  background: var(--cyan);
+  color: var(--navy);
+  border-color: var(--cyan);
+}
+
+.titem__body {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.5rem 2rem;
+  transition: border-color .3s, transform .3s;
+}
+.titem:hover .titem__body { border-color: rgba(0,212,255,.25); transform: translateX(4px); }
+
+.titem__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: .45rem;
+}
+.titem__desc { font-size: .92rem; color: var(--muted); line-height: 1.7; }
+
+/* ===================================================
+   SPONSORS
+=================================================== */
+.sponsors { padding: 7rem 0; background: linear-gradient(180deg, var(--navy-2) 0%, var(--navy) 100%); }
+
+.spons__tier { margin-bottom: 3rem; }
+
+.tier-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--f-mono);
+  font-size: .65rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+}
+.tier-label::before, .tier-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.tier-label.gold { color: #f5c842; }
+.tier-label.silver { color: #a8b8cc; }
+
+.spons__row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.slogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  transition: border-color .3s, transform .3s;
+  cursor: default;
+}
+.slogo:hover { border-color: rgba(0,212,255,.3); transform: translateY(-3px); }
+.slogo--plat { padding: 2rem 3rem; min-width: 220px; }
+.slogo--gold { padding: 1.6rem 2.4rem; min-width: 170px; }
+.slogo--silv { padding: 1.2rem 2rem; min-width: 140px; }
+
+.slogo__name {
+  font-family: var(--f-head);
+  letter-spacing: .04em;
+  line-height: 1;
+}
+.slogo--plat .slogo__name { font-size: 1.8rem; }
+.slogo--gold .slogo__name { font-size: 1.4rem; }
+.slogo--silv .slogo__name { font-size: 1.15rem; }
+
+.slogo__sub {
+  font-family: var(--f-mono);
+  font-size: .6rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: .4rem;
+}
+
+.spons__cta {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+.spons__cta p { color: var(--muted); font-size: .95rem; }
+.spons__cta a { color: var(--cyan); border-bottom: 1px solid rgba(0,212,255,.3); transition: border-color .2s; }
+.spons__cta a:hover { border-color: var(--cyan); }
+
+/* ===================================================
+   FINAL CTA
+=================================================== */
+.fcta {
+  padding: 9rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.fcta__blob {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.fcta__blob::before {
+  content: '';
+  position: absolute;
+  width: 800px;
+  height: 500px;
+  background: rgba(0,212,255,.06);
+  border-radius: 50%;
+  filter: blur(100px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.fcta__inner { position: relative; z-index: 1; }
+.fcta h2 {
+  font-family: var(--f-head);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  letter-spacing: .02em;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+.fcta p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.75;
+}
+.fcta__fine {
+  margin-top: 1.5rem;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+
+/* ===================================================
+   FOOTER
+=================================================== */
+.footer {
+  background: var(--navy);
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 0;
+}
+.footer__in {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.footer__brand { }
+.footer__logo {
+  font-family: var(--f-head);
+  font-size: 1.5rem;
+  letter-spacing: .04em;
+  margin-bottom: .4rem;
+}
+.footer__tagline { font-size: .82rem; color: var(--muted); }
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.footer__links a {
+  font-size: .85rem;
+  color: var(--muted);
+  transition: color .2s;
+}
+.footer__links a:hover { color: var(--white); }
+
+.footer__note {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: .76rem;
+  color: rgba(107,138,170,.5);
+  line-height: 1.7;
+}
+
+/* ===================================================
+   ANIMATIONS
+=================================================== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .65s var(--ease), transform .65s var(--ease);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* ===================================================
+   RESPONSIVE
+=================================================== */
+@media (max-width: 1024px) {
+  .hero__layout { grid-template-columns: 1fr; }
+  .hero__right { display: none; }
+  .hero__title { font-size: clamp(3.5rem, 10vw, 5.5rem); }
+
+  .ejes__grid { grid-template-columns: 1fr; }
+  .info__grid { grid-template-columns: repeat(2, 1fr); }
+
+  .llevar__wrap { grid-template-columns: 1fr; gap: 3rem; }
+  .llevar__sticky { position: static; }
+}
+
+@media (max-width: 768px) {
+  .nav__links, .nav__cta { display: none; }
+  .burger { display: flex; }
+
+  .wrap { padding: 0 1.25rem; }
+
+  .info__grid { grid-template-columns: 1fr; }
+
+  .citem { grid-template-columns: 46px 1fr; }
+  .badge { display: none; }
+
+  .hero__stats { gap: 1.5rem; }
+  .hero__btns { flex-direction: column; }
+  .btn { justify-content: center; }
+
+  .footer__in { flex-direction: column; }
+  .sec-head h2 { font-size: clamp(2.2rem,8vw,3rem); }
+  .hero__title { font-size: clamp(3rem,12vw,5rem); }
+}
+
+@media (max-width: 480px) {
+  .ejes { padding: 5rem 0; }
+  .info { padding: 5rem 0; }
+  .llevar { padding: 5rem 0; }
+  .timeline { padding: 5rem 0; }
+  .sponsors { padding: 5rem 0; }
+  .fcta { padding: 6rem 0; }
+
+  .ecard { padding: 1.75rem 1.4rem; }
+  .citem { gap: .8rem; padding: 1rem 1.1rem; }
+
+  .tline { padding-left: 3.5rem; }
+  .titem__dot { left: -3.5rem; }
+  .tline::before { left: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======== NAV ======== -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <div class="nav__in">
+      <span class="nav__logo">CIBER<span class="accent">HACK</span></span>
+      <ul class="nav__links">
+        <li><a href="#ejes">Ejes</a></li>
+        <li><a href="#info">Bases</a></li>
+        <li><a href="#llevar">Qué llevar</a></li>
+        <li><a href="#sponsors">Sponsors</a></li>
+      </ul>
+      <a href="https://forms.gle/6sVfido23mvn7zBd8" target="_blank" class="btn btn-primary btn-sm nav__cta">Inscríbete →</a>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav__mob" id="mob-menu">
+    <a href="#ejes">Ejes temáticos</a>
+    <a href="#info">Bases del evento</a>
+    <a href="#llevar">Qué llevar</a>
+    <a href="#sponsors">Sponsors</a>
+    <a href="https://forms.gle/6sVfido23mvn7zBd8" target="_blank" class="btn btn-primary btn-sm" style="width:fit-content">Inscríbete →</a>
+  </div>
+</nav>
+
+<!-- ======== HERO ======== -->
+<section class="hero" id="home">
+  <div class="hero__canvas">
+    <div class="hero__grid"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="wrap">
+    <div class="hero__layout">
+      <div class="hero__left">
+        <div class="hero__eyebrow">HACKATHON · 48 HORAS · 100% PRESENCIAL</div>
+        <h1 class="hero__title">
+          <span class="line">Defiende</span>
+          <span class="line">el mundo</span>
+          <span class="line accent">digital.</span>
+        </h1>
+        <p class="hero__desc">
+          El mayor reto de ciberdefensa multidisciplinario del año. Construye soluciones reales en 48 horas continuas junto a mentes de distintas áreas del conocimiento.
+        </p>
+        <div class="hero__btns">
+          <a href="https://forms.gle/6sVfido23mvn7zBd8" target="_blank" class="btn btn-primary">Quiero participar →</a>
+          <a href="#ejes" class="btn btn-ghost">Ver los retos</a>
+        </div>
+        <div class="hero__stats">
+          <div class="hstat"><span class="hstat__n">48h</span><span class="hstat__l">Intensivas</span></div>
+          <div class="hstat"><span class="hstat__n">2–5</span><span class="hstat__l">Por equipo</span></div>
+          <div class="hstat"><span class="hstat__n">4</span><span class="hstat__l">Ejes temáticos</span></div>
+          <div class="hstat"><span class="hstat__n">18+</span><span class="hstat__l">Edad mínima</span></div>
+        </div>
+      </div>
+
+      <div class="hero__right">
+        <div class="hero__card-stack">
+          <div class="hcard hcard-1">
+            <div class="hcard__tag">⚕️ &nbsp;Eje 01 — Salud</div>
+            <div class="hcard__title">Acceso anómalo detectado en sistema de expedientes clínicos</div>
+            <div class="hcard__body">Usuario sin permisos consultó 347 registros en las últimas 2 horas fuera de su área asignada.</div>
+            <div class="hcard__alert"><span class="hcard__dot"></span> ALERTA ACTIVA · PRIORIDAD ALTA</div>
+          </div>
+          <div class="hcard hcard-2">
+            <div class="hcard__tag">📦 &nbsp;Eje 03 — Logística</div>
+            <div class="hcard__title">Discrepancia detectada en manifiesto de carga</div>
+            <div class="hcard__body">Factura modificada post-aprobación. Hash no coincide con versión original firmada.</div>
+          </div>
+          <div class="hcard hcard-3">
+            <div class="hcard__tag">🎣 &nbsp;Eje 04 — Phishing</div>
+            <div class="hcard__title">Simulación de phishing completada</div>
+            <div class="hcard__body">23% de usuarios hicieron clic. Capacitación personalizada generada automáticamente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== EJES ======== -->
+<section class="ejes" id="ejes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="chip">Ejes temáticos</span>
+      <h2>Elige tu campo<br/>de batalla</h2>
+      <p>Cuatro frentes críticos, un solo objetivo: proteger lo que importa. Los problemas exactos se revelan al inicio del evento.</p>
+    </div>
+    <div class="ejes__grid">
+
+      <article class="ecard reveal">
+        <span class="ecard__num">01</span>
+        <span class="ecard__icon">🏥</span>
+        <h3 class="ecard__title">Salud &amp; Datos sensibles</h3>
+        <p class="ecard__body">
+          Hospitales, laboratorios e instituciones biomédicas son objetivos de alto valor. Detecta accesos no autorizados a expedientes clínicos, alertas de manipulación de resultados médicos, fugas de datos genéticos y falta de trazabilidad en información crítica de pacientes.
+        </p>
+        <ul class="ecard__pills">
+          <li>Medicina</li><li>Bioinformática</li><li>Software</li><li>TI</li><li>Telecomunicaciones</li>
+        </ul>
+      </article>
+
+      <article class="ecard reveal">
+        <span class="ecard__num">02</span>
+        <span class="ecard__icon">🏙️</span>
+        <h3 class="ecard__title">Ciudades e Infraestructura crítica</h3>
+        <p class="ecard__body">
+          Campus inteligentes, edificios automatizados y servicios urbanos dependen de sistemas conectados. Una cámara desconectada o una puerta abierta a deshora pueden ser señales de intrusión. Correlaciona eventos físicos y digitales para defender la continuidad operativa.
+        </p>
+        <ul class="ecard__pills">
+          <li>Civil</li><li>Arquitectura</li><li>Electrónica</li><li>Telecomunicaciones</li><li>TI</li>
+        </ul>
+      </article>
+
+      <article class="ecard reveal">
+        <span class="ecard__num">03</span>
+        <span class="ecard__icon">📦</span>
+        <h3 class="ecard__title">Logística &amp; Cadena de suministro</h3>
+        <p class="ecard__body">
+          Órdenes de compra, facturas, manifiestos y declaraciones forman un flujo crítico donde una alteración maliciosa puede generar pérdidas millonarias. Combate el fraude documental, valida integridad de registros y mapea el riesgo por eslabón de la cadena.
+        </p>
+        <ul class="ecard__pills">
+          <li>Comercio Exterior</li><li>Software</li><li>TI</li><li>Civil</li>
+        </ul>
+      </article>
+
+      <article class="ecard reveal">
+        <span class="ecard__num">04</span>
+        <span class="ecard__icon">🎣</span>
+        <h3 class="ecard__title">Phishing &amp; Factor humano</h3>
+        <p class="ecard__body">
+          La tecnología rara vez falla — falla la persona. Diseña simuladores de campañas de phishing, detectores de ingeniería social con explicaciones comprensibles, y herramientas que generen aprendizaje real a partir del incidente. La defensa empieza en la cultura.
+        </p>
+        <ul class="ecard__pills">
+          <li>Educación</li><li>Software</li><li>TI</li><li>Medicina</li><li>Comercio Exterior</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======== INFO ======== -->
+<section class="info" id="info">
+  <div class="wrap">
+    <div class="sec-head sec-head--center reveal">
+      <span class="chip">Bases del concurso</span>
+      <h2>Todo lo que necesitas saber</h2>
+      <p>Reglas claras, tecnología libre y propiedad intelectual 100% para tu equipo.</p>
+    </div>
+    <div class="info__grid">
+      <div class="iblock reveal">
+        <span class="iblock__icon">👥</span>
+        <div class="iblock__title">Equipos de 2 a 5 personas</div>
+        <p class="iblock__body">Mínimo 2, máximo 5 integrantes. Se recomienda multidisciplinariedad: tecnología + salud + ingeniería + sociales. Solo puedes estar en <strong>un equipo</strong>.</p>
+      </div>
+      <div class="iblock reveal">
+        <span class="iblock__icon">🎓</span>
+        <div class="iblock__title">Abierto a todas las áreas</div>
+        <p class="iblock__body">Mayores de <strong>18 años</strong>. Estudiantes universitarios o de institutos tecnológicos. Cualquier carrera es bienvenida: los retos requieren múltiples perspectivas.</p>
+      </div>
+      <div class="iblock reveal">
+        <span class="iblock__icon">⚙️</span>
+        <div class="iblock__title">Tecnología libre</div>
+        <p class="iblock__body">Sin restricciones técnicas. <strong>Cualquier lenguaje, framework o herramienta.</strong> La única regla: usa datos simulados, anonimizados o ficticios. Nada real.</p>
+      </div>
+      <div class="iblock reveal">
+        <span class="iblock__icon">🖥️</span>
+        <div class="iblock__title">Prototipo funcional + Pitch</div>
+        <p class="iblock__body">Entrega una <strong>app web funcional</strong> con al menos un escenario normal y uno anómalo, más una presentación de <strong>5 minutos</strong> ante el jurado.</p>
+      </div>
+      <div class="iblock reveal">
+        <span class="iblock__icon">🏆</span>
+        <div class="iblock__title">Criterios de evaluación</div>
+        <p class="iblock__body"><strong>Técnico 40%</strong> · Contexto 25% · UX 15% · Innovación 10% · Pitch 10%. Habrá ranking global y ranking por eje temático.</p>
+      </div>
+      <div class="iblock reveal">
+        <span class="iblock__icon">💡</span>
+        <div class="iblock__title">Tu idea es tuya</div>
+        <p class="iblock__body">La organización <strong>no reclama ningún derecho</strong> sobre los proyectos. Todo lo que construyas durante el hackathon te pertenece a ti y a tu equipo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== QUÉ LLEVAR ======== -->
+<section class="llevar" id="llevar">
+  <div class="wrap">
+    <div class="llevar__wrap">
+
+      <div class="llevar__sticky reveal">
+        <span class="chip">Checklist esencial</span>
+        <h2>¿Qué llevar<br/>al evento?</h2>
+        <p>Son <strong style="color:var(--white)">48 horas presenciales e intensivas</strong>. Una vez iniciado el evento no podrás salir hasta concluirlo. Llega preparado.</p>
+        <a href="https://forms.gle/6sVfido23mvn7zBd8" target="_blank" class="btn btn-primary" style="margin-top:2rem">Inscríbete ahora →</a>
+        <div class="llevar__warn" style="margin-top:1.75rem">
+          <strong>⚠️ Importante:</strong> Todo material prestado por la universidad anfitriona debe devolverse en las mismas condiciones al finalizar. Cualquier daño es responsabilidad del equipo.
+        </div>
+      </div>
+
+      <div class="clist reveal">
+
+        <div class="citem citem--must">
+          <div class="citem__ico">💻</div>
+          <div class="citem__text">
+            <strong>Computador portátil</strong>
+            <small>Tu herramienta principal. Indispensable para todo el proceso de desarrollo durante las 48 horas.</small>
+          </div>
+          <span class="badge badge-must">Esencial</span>
+        </div>
+
+        <div class="citem citem--must">
+          <div class="citem__ico">🔌</div>
+          <div class="citem__text">
+            <strong>Extensión eléctrica</strong>
+            <small>Varios puertos para ti y tu equipo. No dependas de los tomacorrientes del salón.</small>
+          </div>
+          <span class="badge badge-must">Esencial</span>
+        </div>
+
+        <div class="citem citem--rec">
+          <div class="citem__ico">🖱️</div>
+          <div class="citem__text">
+            <strong>Mouse, teclado y periféricos</strong>
+            <small>Todo lo que acelere tu flujo de trabajo. Un buen mouse puede marcar la diferencia en 48 horas.</small>
+          </div>
+          <span class="badge badge-rec">Recomendado</span>
+        </div>
+
+        <div class="citem citem--rec">
+          <div class="citem__ico">📓</div>
+          <div class="citem__text">
+            <strong>Cuaderno y esferos</strong>
+            <small>Para esquematizar ideas rápidas, diseñar arquitecturas y organizar el trabajo del equipo.</small>
+          </div>
+          <span class="badge badge-rec">Recomendado</span>
+        </div>
+
+        <div class="citem citem--rec">
+          <div class="citem__ico">🎧</div>
+          <div class="citem__text">
+            <strong>Audífonos</strong>
+            <small>Concentración máxima en tu zona de trabajo. El ambiente puede ser muy dinámico.</small>
+          </div>
+          <span class="badge badge-rec">Recomendado</span>
+        </div>
+
+        <div class="citem citem--rec">
+          <div class="citem__ico">🍎</div>
+          <div class="citem__text">
+            <strong>Snacks y bebidas</strong>
+            <small>Mantén tu energía y concentración. El hackathon es un maratón, no una carrera corta.</small>
+          </div>
+          <span class="badge badge-rec">Recomendado</span>
+        </div>
+
+        <div class="citem citem--bio">
+          <div class="citem__ico">💊</div>
+          <div class="citem__text">
+            <strong>Medicamentos personales</strong>
+            <small>Si tienes alguna condición médica relevante, informa al equipo organizador antes del evento.</small>
+          </div>
+          <span class="badge badge-bio">Salud</span>
+        </div>
+
+        <div class="citem citem--bio">
+          <div class="citem__ico">😴</div>
+          <div class="citem__text">
+            <strong>Artículos de descanso</strong>
+            <small>Almohada de viaje, manta o cobija. Gestiona tus tiempos de descanso: rendir bien requiere dormir.</small>
+          </div>
+          <span class="badge badge-bio">Bienestar</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== TIMELINE ======== -->
+<section class="timeline" id="como">
+  <div class="wrap">
+    <div class="sec-head sec-head--center reveal">
+      <span class="chip">Cómo funciona</span>
+      <h2>Flujo del evento</h2>
+      <p>Desde la inscripción hasta la premiación. Cinco pasos para transformar un problema real en una solución de ciberdefensa.</p>
+    </div>
+    <div class="tline">
+
+      <div class="titem reveal">
+        <div class="titem__dot">01</div>
+        <div class="titem__body">
+          <div class="titem__title">Inscripción del equipo</div>
+          <p class="titem__desc">Forma tu equipo de 2 a 5 personas, idealmente multidisciplinario, y completa el formulario oficial de inscripción. Los cupos son limitados.</p>
+        </div>
+      </div>
+
+      <div class="titem reveal">
+        <div class="titem__dot">02</div>
+        <div class="titem__body">
+          <div class="titem__title">Apertura y revelación de retos</div>
+          <p class="titem__desc">Al inicio del evento se revelan los problemas específicos de cada eje temático. Esto garantiza que ningún equipo desarrolle soluciones con anticipación.</p>
+        </div>
+      </div>
+
+      <div class="titem reveal">
+        <div class="titem__dot">03</div>
+        <div class="titem__body">
+          <div class="titem__title">48 horas de desarrollo intensivo</div>
+          <p class="titem__desc">Construye tu prototipo funcional. Hay mentores disponibles durante todo el evento. Usa datos ficticios o simulados. Sin restricciones de tecnología.</p>
+        </div>
+      </div>
+
+      <div class="titem reveal">
+        <div class="titem__dot">04</div>
+        <div class="titem__body">
+          <div class="titem__title">Pitch final ante el jurado</div>
+          <p class="titem__desc">5 minutos de presentación + 3 minutos de preguntas. Demuestra el prototipo en vivo, explica el problema, la solución y el impacto real que puede generar.</p>
+        </div>
+      </div>
+
+      <div class="titem reveal">
+        <div class="titem__dot">🏆</div>
+        <div class="titem__body">
+          <div class="titem__title">Evaluación y premiación</div>
+          <p class="titem__desc">Ranking global y ranking por eje temático. Tu solución sigue siendo 100% tuya. La organización no reclama ningún derecho sobre lo que construiste.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======== SPONSORS ======== -->
+<section class="sponsors" id="sponsors">
+  <div class="wrap">
+    <div class="sec-head sec-head--center reveal">
+      <span class="chip">Aliados estratégicos</span>
+      <h2>Sponsors &amp;<br/>Patrocinadores</h2>
+      <p>Empresas líderes en seguridad, tecnología e innovación que hacen posible este encuentro de ciberdefensa.</p>
+    </div>
+
+    <div class="spons__tier">
+      <div class="tier-label">Platino</div>
+      <div class="spons__row">
+        <div class="slogo slogo--plat reveal">
+          <span class="slogo__name">CyberShield<span class="accent">EC</span></span>
+          <span class="slogo__sub">Ciberseguridad Empresarial</span>
+        </div>
+        <div class="slogo slogo--plat reveal">
+          <span class="slogo__name">Data<span class="accent">Vault</span></span>
+          <span class="slogo__sub">Protección de Datos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="spons__tier">
+      <div class="tier-label gold">Oro</div>
+      <div class="spons__row">
+        <div class="slogo slogo--gold reveal">
+          <span class="slogo__name">Net<span class="accent">Guard</span></span>
+          <span class="slogo__sub">Redes &amp; Firewall</span>
+        </div>
+        <div class="slogo slogo--gold reveal">
+          <span class="slogo__name">Infra<span class="accent">Sec</span></span>
+          <span class="slogo__sub">Infraestructura Crítica</span>
+        </div>
+        <div class="slogo slogo--gold reveal">
+          <span class="slogo__name">Cloud<span class="accent">Armor</span></span>
+          <span class="slogo__sub">Cloud Security</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="spons__tier">
+      <div class="tier-label silver">Plata</div>
+      <div class="spons__row">
+        <div class="slogo slogo--silv reveal"><span class="slogo__name">HackLab</span></div>
+        <div class="slogo slogo--silv reveal"><span class="slogo__name">SecureBase</span></div>
+        <div class="slogo slogo--silv reveal"><span class="slogo__name">ByteShield</span></div>
+        <div class="slogo slogo--silv reveal"><span class="slogo__name">ProxyNet</span></div>
+      </div>
+    </div>
+
+    <div class="spons__cta reveal">
+      <p>¿Tu empresa quiere ser parte de CiberHack 2025? <a href="mailto:ciberhack@ejemplo.ec">Contáctanos para patrocinar →</a></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======== FINAL CTA ======== -->
+<section class="fcta">
+  <div class="fcta__blob"></div>
+  <div class="wrap">
+    <div class="fcta__inner reveal">
+      <h2>¿Listo para las<br/><span class="accent">48 horas</span> más<br/>intensas?</h2>
+      <p>Inscríbete ahora. Los cupos son limitados y los retos se revelan el día del evento. Tu solución es 100% tuya.</p>
+      <a href="https://forms.gle/6sVfido23mvn7zBd8" target="_blank" class="btn btn-primary" style="font-size:1rem;padding:1.05em 2.5em">Inscribirme al hackathon →</a>
+      <p class="fcta__fine">100% presencial · Mayores de 18 años · Equipos de 2 a 5 personas · Tecnología libre</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__in">
+      <div class="footer__brand">
+        <div class="footer__logo">CIBER<span class="accent">HACK</span> 2025</div>
+        <div class="footer__tagline">Hackathon de Ciberdefensa · 48 horas · 100% presencial</div>
+      </div>
+      <div class="footer__links">
+        <a href="#ejes">Ejes temáticos</a>
+        <a href="#info">Bases del concurso</a>
+        <a href="#llevar">Qué llevar</a>
+        <a href="#sponsors">Sponsors</a>
+        <a href="https://forms.gle/6sVfido23mvn7zBd8" target="_blank" style="color:var(--cyan)">Formulario de inscripción →</a>
+      </div>
+    </div>
+    <div class="footer__note">
+      Los retos se revelan al inicio del evento para evitar desarrollos previos. Toda solución debe utilizar datos simulados, anonimizados o ficticios. No se permite atacar sistemas reales. La propiedad intelectual de los proyectos pertenece íntegramente a los equipos participantes.
+    </div>
+  </div>
+</footer>
+
+<script>
+// NAV scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+});
+nav.classList.toggle('scrolled', window.scrollY > 30);
+
+// Burger
+const burger = document.getElementById('burger');
+const mob = document.getElementById('mob-menu');
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  mob.classList.toggle('open');
+});
+mob.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    mob.classList.remove('open');
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 70, behavior: 'smooth' }); }
+  });
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach((en, i) => {
+    if (en.isIntersecting) {
+      const siblings = [...en.target.parentElement.querySelectorAll('.reveal')];
+      const idx = siblings.indexOf(en.target);
+      setTimeout(() => en.target.classList.add('in'), idx * 90);
+      ro.unobserve(en.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => ro.observe(el));
+</script>
+</body>
+</html>

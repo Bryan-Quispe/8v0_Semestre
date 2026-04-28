@@ -1,0 +1,226 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     5/11/2025 9:46:06                            */
+/*==============================================================*/
+
+
+DROP TABLE IF EXISTS PECAR_CARGO;
+
+DROP TABLE IF EXISTS PEDEP_DEPAR;
+
+DROP TABLE IF EXISTS PEEMP_EMPLE;
+
+DROP TABLE IF EXISTS PEESC_ESTCIV;
+
+DROP TABLE IF EXISTS PESEX_SEXO;
+
+DROP TABLE IF EXISTS XEEST_ESTAD;
+
+DROP TABLE IF EXISTS XEOPC_OPCIO;
+
+DROP TABLE IF EXISTS XEOXP_OPCPE;
+
+DROP TABLE IF EXISTS XEPER_PERFI;
+
+DROP TABLE IF EXISTS XESIS_SISTE;
+
+DROP TABLE IF EXISTS XEUSU_USUAR;
+
+DROP TABLE IF EXISTS XEUXP_USUPE;
+
+/*==============================================================*/
+/* Table: PECAR_CARGO                                           */
+/*==============================================================*/
+CREATE TABLE PECAR_CARGO
+(
+   PEDEP_CODIGO         CHAR(3) NOT NULL,
+   PECAR_CODIGO         CHAR(3) NOT NULL,
+   PECAR_DESCRI         VARCHAR(50) NOT NULL,
+   PRIMARY KEY (PEDEP_CODIGO, PECAR_CODIGO)
+);
+
+ALTER TABLE PECAR_CARGO COMMENT 'Entidad utilizada para representar el CARGO dentro de un DEP';
+
+/*==============================================================*/
+/* Table: PEDEP_DEPAR                                           */
+/*==============================================================*/
+CREATE TABLE PEDEP_DEPAR
+(
+   PEDEP_CODIGO         CHAR(3) NOT NULL,
+   PEDEP_DESCRI         VARCHAR(50) NOT NULL,
+   PRIMARY KEY (PEDEP_CODIGO)
+);
+
+ALTER TABLE PEDEP_DEPAR COMMENT 'Entidad utilizada para representar el DEPARTAMENTO de la UNI';
+
+/*==============================================================*/
+/* Table: PEEMP_EMPLE                                           */
+/*==============================================================*/
+CREATE TABLE PEEMP_EMPLE
+(
+   PEEMP_CODIGO         CHAR(9) NOT NULL,
+   PESEX_CODIGO         CHAR(1) NOT NULL,
+   PEESC_CODIGO         CHAR(1),
+   PEEMP_APELLI         VARCHAR(100) NOT NULL,
+   PEEMP_NOMBRE         VARCHAR(100) NOT NULL,
+   PEEMP_CEDULA         VARCHAR(10),
+   PEEMP_FECNACI        DATE NOT NULL,
+   PEEMP_CARGAS         NUMERIC(2,0) NOT NULL,
+   PEEMP_DIREC          VARCHAR(100) NOT NULL,
+   PEEMP_CELU           CHAR(10),
+   PEEMP_TELDOM         CHAR(10),
+   PEEMP_EMAIL          VARCHAR(100) NOT NULL,
+   PRIMARY KEY (PEEMP_CODIGO)
+);
+
+ALTER TABLE PEEMP_EMPLE COMMENT 'Entidad que se utiliza para almacenar los empleados PEEMP_EM';
+
+/*==============================================================*/
+/* Table: PEESC_ESTCIV                                          */
+/*==============================================================*/
+CREATE TABLE PEESC_ESTCIV
+(
+   PEESC_CODIGO         CHAR(1) NOT NULL,
+   PEESC_DESCRI         VARCHAR(50) NOT NULL,
+   PRIMARY KEY (PEESC_CODIGO)
+);
+
+ALTER TABLE PEESC_ESTCIV COMMENT 'Entidad utilizada para representar el ESTADO CIVIL de una pe';
+
+/*==============================================================*/
+/* Table: PESEX_SEXO                                            */
+/*==============================================================*/
+CREATE TABLE PESEX_SEXO
+(
+   PESEX_CODIGO         CHAR(1) NOT NULL,
+   PESEX_DESCRI         VARCHAR(50) NOT NULL,
+   PRIMARY KEY (PESEX_CODIGO)
+);
+
+ALTER TABLE PESEX_SEXO COMMENT 'Entidad utilizada para representar el sexo o género de una p';
+
+/*==============================================================*/
+/* Table: XEEST_ESTAD                                           */
+/*==============================================================*/
+CREATE TABLE XEEST_ESTAD
+(
+   XEEST_CODIGO         CHAR(1) NOT NULL,
+   XEEST_DESCRI         VARCHAR(50) NOT NULL,
+   PRIMARY KEY (XEEST_CODIGO)
+);
+
+ALTER TABLE XEEST_ESTAD COMMENT 'Entidad utilizada para gestionar el estado de las difetrente';
+
+/*==============================================================*/
+/* Table: XEOPC_OPCIO                                           */
+/*==============================================================*/
+CREATE TABLE XEOPC_OPCIO
+(
+   XEOPC_CODIGO         CHAR(3) NOT NULL,
+   XESIS_CODIGO         CHAR(1) NOT NULL,
+   XEOPC_DESCRI         VARCHAR(100) NOT NULL,
+   PRIMARY KEY (XEOPC_CODIGO)
+);
+
+ALTER TABLE XEOPC_OPCIO COMMENT 'Entidad utilizada para realizar el registro de las diferente';
+
+/*==============================================================*/
+/* Table: XEOXP_OPCPE                                           */
+/*==============================================================*/
+CREATE TABLE XEOXP_OPCPE
+(
+   XEOPC_CODIGO         CHAR(3) NOT NULL,
+   XEPER_CODIGO         CHAR(8) NOT NULL,
+   XEOXP_FECASI         DATE NOT NULL,
+   XEOXP_FECRET         DATE,
+   PRIMARY KEY (XEOPC_CODIGO, XEPER_CODIGO, XEOXP_FECASI)
+);
+
+ALTER TABLE XEOXP_OPCPE COMMENT 'Entidad utilizada para llevar el registro de las opciones qu';
+
+/*==============================================================*/
+/* Table: XEPER_PERFI                                           */
+/*==============================================================*/
+CREATE TABLE XEPER_PERFI
+(
+   XEPER_CODIGO         CHAR(8) NOT NULL,
+   XEPER_DESCRI         VARCHAR(100) NOT NULL,
+   XEPER_OBSER          TEXT,
+   PRIMARY KEY (XEPER_CODIGO)
+);
+
+ALTER TABLE XEPER_PERFI COMMENT 'Entidad utilizada para realizar la gestión de los diferentes';
+
+/*==============================================================*/
+/* Table: XESIS_SISTE                                           */
+/*==============================================================*/
+CREATE TABLE XESIS_SISTE
+(
+   XESIS_CODIGO         CHAR(1) NOT NULL,
+   XESIS_DESCRI         VARCHAR(50) NOT NULL,
+   PRIMARY KEY (XESIS_CODIGO)
+);
+
+ALTER TABLE XESIS_SISTE COMMENT 'Entidad utilizada para realziar la gestión de los diferentes';
+
+/*==============================================================*/
+/* Table: XEUSU_USUAR                                           */
+/*==============================================================*/
+CREATE TABLE XEUSU_USUAR
+(
+   PEEMP_CODIGO         CHAR(9) NOT NULL,
+   XEUSU_PASWD          VARCHAR(16) NOT NULL,
+   XEEST_CODIGO         CHAR(1) NOT NULL,
+   XEUSU_FECCRE         DATETIME NOT NULL,
+   XEUSU_FECMOD         DATETIME NOT NULL,
+   XEUSU_PIEFIR         VARCHAR(100) NOT NULL,
+   PRIMARY KEY (PEEMP_CODIGO, XEUSU_PASWD)
+);
+
+ALTER TABLE XEUSU_USUAR COMMENT 'Entidad relacionada para gentionar los usuario que ingrsan a';
+
+/*==============================================================*/
+/* Table: XEUXP_USUPE                                           */
+/*==============================================================*/
+CREATE TABLE XEUXP_USUPE
+(
+   PEEMP_CODIGO         CHAR(9) NOT NULL,
+   XEUSU_PASWD          VARCHAR(16) NOT NULL,
+   XEPER_CODIGO         CHAR(8) NOT NULL,
+   XEUXP_FECASI         DATE NOT NULL,
+   XEUXP_FECRET         DATE,
+   PRIMARY KEY (PEEMP_CODIGO, XEUSU_PASWD, XEPER_CODIGO, XEUXP_FECASI)
+);
+
+ALTER TABLE XEUXP_USUPE COMMENT 'Entidad utilizada para realizar el registro de los diferente';
+
+ALTER TABLE PECAR_CARGO ADD CONSTRAINT FK_PR_PEDEP_PECAR FOREIGN KEY (PEDEP_CODIGO)
+      REFERENCES PEDEP_DEPAR (PEDEP_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE PEEMP_EMPLE ADD CONSTRAINT FK_PR_PEESC_PEEMP FOREIGN KEY (PEESC_CODIGO)
+      REFERENCES PEESC_ESTCIV (PEESC_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE PEEMP_EMPLE ADD CONSTRAINT FK_PR_PESEX_PEEMP FOREIGN KEY (PESEX_CODIGO)
+      REFERENCES PESEX_SEXO (PESEX_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE XEOPC_OPCIO ADD CONSTRAINT FK_XR_XESIS_XEOPC FOREIGN KEY (XESIS_CODIGO)
+      REFERENCES XESIS_SISTE (XESIS_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE XEOXP_OPCPE ADD CONSTRAINT FK_XR_XEOPC_XEOXP FOREIGN KEY (XEOPC_CODIGO)
+      REFERENCES XEOPC_OPCIO (XEOPC_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE XEOXP_OPCPE ADD CONSTRAINT FK_XR_XEPER_XEOXP FOREIGN KEY (XEPER_CODIGO)
+      REFERENCES XEPER_PERFI (XEPER_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE XEUSU_USUAR ADD CONSTRAINT FK_XR_PEEMP_XEUSU FOREIGN KEY (PEEMP_CODIGO)
+      REFERENCES PEEMP_EMPLE (PEEMP_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE XEUSU_USUAR ADD CONSTRAINT FK_XR_XEEST_XEUSU FOREIGN KEY (XEEST_CODIGO)
+      REFERENCES XEEST_ESTAD (XEEST_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE XEUXP_USUPE ADD CONSTRAINT FK_XR_XEPER_XEUXP FOREIGN KEY (XEPER_CODIGO)
+      REFERENCES XEPER_PERFI (XEPER_CODIGO) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE XEUXP_USUPE ADD CONSTRAINT FK_XR_XEUSU_XEUXP FOREIGN KEY (PEEMP_CODIGO, XEUSU_PASWD)
+      REFERENCES XEUSU_USUAR (PEEMP_CODIGO, XEUSU_PASWD) ON DELETE RESTRICT ON UPDATE RESTRICT;
+

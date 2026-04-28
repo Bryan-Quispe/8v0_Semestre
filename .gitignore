@@ -1,0 +1,108 @@
+# Ignorar dependencias y artefactos generados (Node, Python, Java, IDEs, SO)
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+.pnp.cjs
+.pnp.js
+/.next/
+/.nuxt/
+/.vercel/
+/.vercel/output/
+/.parcel-cache/
+.cache/
+/dist/
+/build/
+/out/
+
+# Environment / secrets
+.env
+.env.*.local
+.env.local
+.env.production
+.secret
+*.key
+*.pem
+*.p12
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env/
+venv/
+ENV/
+env/
+.venv/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+/target/
+/build/
+
+# Rust
+/target/
+
+# Go
+/bin/
+/obj/
+/vendor/
+
+# C/C++
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+/build/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Misc
+*.sqlite
+*.sqlite3
+*.db
+*.DS_Store
+
+# Ignore local npm/yarn lock if you prefer to not commit them (comment out if you want locks tracked)
+# package-lock.json
+# yarn.lock
+
+# Ignore nested Git repositories (sub-repos / submodules)
+# Ignores any `.git` directory inside subfolders; the root repository's `.git` is not affected.
+**/.git
+.gitmodules
