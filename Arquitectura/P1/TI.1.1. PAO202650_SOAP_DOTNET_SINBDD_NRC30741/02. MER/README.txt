@@ -1,0 +1,1 @@
+Este proyecto no tiene MER porque no contiene BDD
