@@ -1,0 +1,76 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[table]{xcolor}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{margin=2.4cm}
+\setstretch{1.12}
+
+\definecolor{PrimaryBlue}{HTML}{16324F}
+\definecolor{SoftGray}{HTML}{F3F6F8}
+
+\title{\Huge\textbf{Sprint Backlog}\\[0.3em]\Large Plataforma Web de Mascotas 3D}
+\author{Bryan Quispe}
+\date{20 de abril de 2026}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{1.8cm}
+{\Huge\bfseries\color{PrimaryBlue} Sprint Backlog\\[0.35em]}
+{\LARGE Tareas del Sprint con estimación\\[1.2cm]}
+
+\begin{tabular}{p{5cm} p{8cm}}
+\rowcolor{SoftGray}
+\textbf{Versión} & 1.0 \\
+\textbf{Fecha} & 20 de abril de 2026 \\
+\textbf{Autor} & Bryan Quispe \\
+\textbf{Periodo} & 20 de abril de 2026 al 7 de agosto de 2026 \\
+\end{tabular}
+
+\vfill
+{\large Documento Scrum para la ejecución del Sprint}
+\end{titlepage}
+
+\section{Sprint activo}
+\textbf{Sprint 1} - Autenticación y registro básico de mascotas.
+
+\section{Tareas priorizadas}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.8cm} >{\raggedright\arraybackslash}p{6.2cm} >{\raggedright\arraybackslash}p{1.8cm} >{\raggedright\arraybackslash}p{2.2cm} >{\raggedright\arraybackslash}p{1.8cm}}
+\toprule
+\textbf{ID} & \textbf{Tarea} & \textbf{Historia} & \textbf{Estimación} & \textbf{Estado} \\
+\midrule
+SB-01 & Crear formulario de registro y validaciones & PB-01 & 5 pts & Pendiente \\
+SB-02 & Implementar login con JWT & PB-02 & 5 pts & Pendiente \\
+SB-03 & Crear endpoint de alta de mascota & PB-03 & 5 pts & Pendiente \\
+SB-04 & Implementar listado de mascotas del usuario & PB-04 & 3 pts & Pendiente \\
+SB-05 & Manejo de errores y mensajes consistentes & PB-09 & 3 pts & Pendiente \\
+SB-06 & Configurar expiración de sesión por inactividad & PB-06 & 3 pts & Pendiente \\
+\bottomrule
+\end{longtable}
+
+\section{Capacidad estimada}
+\begin{itemize}[leftmargin=*]
+    \item Capacidad del Sprint: 24 puntos.
+    \item Reserva técnica: 3 puntos.
+    \item Capacidad comprometida: 21 puntos.
+\end{itemize}
+
+\section{Criterio de control}
+\begin{itemize}[leftmargin=*]
+    \item Cada tarea debe estar vinculada a una historia priorizada.
+    \item No se agregan tareas no refinadas durante el Sprint sin replanificación.
+\end{itemize}
+
+\end{document}

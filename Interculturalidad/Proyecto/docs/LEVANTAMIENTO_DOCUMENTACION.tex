@@ -3,201 +3,62 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\usepackage[table]{xcolor}
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{enumitem}
 
-\geometry{margin=2.5cm}
-\setstretch{1.2}
+\geometry{margin=2.4cm}
+\setstretch{1.12}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
 
-\title{Levantamiento de Documentacion del Proyecto\\\large Gestion Scrum para Plataforma Web de Mascotas 3D}
+\definecolor{PrimaryBlue}{HTML}{16324F}
+\definecolor{SoftGray}{HTML}{F3F6F8}
+
+	itle{\Huge\textbf{Documentaci\'on Scrum}\[0.3em]\Large Plataforma Web de Mascotas 3D}
 \author{Equipo del Proyecto}
 \date{Mayo 2026}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+\centering
+\vspace*{1.8cm}
+{\Huge\bfseries\color{PrimaryBlue} Documentaci\'on Scrum\\[0.35em]}
+{\LARGE Plataforma Web de Mascotas 3D\\[1.2cm]}
+
+\begin{tabular}{p{5cm} p{8cm}}
+\rowcolor{SoftGray}
+\textbf{Proyecto} & Sistema web para gestionar mascotas y visualizar modelos 3D de animales \\
+\textbf{Metodolog\'ia} & Scrum, con Sprint de 2 semanas para la fase MVP \\
+\textbf{Enfoque} & Entrega incremental, validaci\'on continua y trazabilidad \\
+\textbf{Fuente base} & Scrum Guide 2020 y literatura especializada \\
+\textbf{Fecha} & Mayo 2026 \\
+\end{tabular}
+
+\vfill
+{\large Documento modular preparado para Overleaf}
+\end{titlepage}
+
 \tableofcontents
 \newpage
 
-\section{Introduccion}
-Este documento presenta el levantamiento de documentacion del proyecto \textbf{Plataforma Web de Mascotas 3D} bajo el marco \textbf{Scrum}. El objetivo es definir de manera formal la organizacion del trabajo, los artefactos, los eventos, los roles y la trazabilidad del producto para el desarrollo incremental del \textit{MVP}.
-
-El contenido se fundamenta en fuentes oficiales y reconocidas de Scrum, especialmente la \textit{Scrum Guide 2020} \cite{schwaber2020}, complementada por literatura especializada \cite{verheyen2020,pichler2010}.
-
-\section{Contexto del Proyecto}
-\subsection{Vision del producto}
-Construir una plataforma web donde una persona usuaria pueda:
-\begin{itemize}[leftmargin=*]
-    \item Registrarse e iniciar sesion.
-    \item Registrar informacion de sus mascotas (nombre, edad, fotos y datos relevantes).
-    \item Asociar y visualizar modelos 3D base de animales.
-\end{itemize}
-
-El alcance inmediato corresponde al \textbf{MVP}: autenticacion y registro de mascotas. La personalizacion avanzada de modelos 3D se planifica como evolutivo posterior.
-
-\subsection{Objetivo del levantamiento}
-\begin{itemize}[leftmargin=*]
-    \item Definir la gestion del proyecto con Scrum de forma auditable.
-    \item Establecer artefactos y eventos con criterios claros.
-    \item Alinear el trabajo tecnico con objetivos de producto y entrega incremental.
-\end{itemize}
-
-\section{Fundamento Teorico de Scrum}
-\subsection{Definicion}
-Scrum es un marco ligero para desarrollar, entregar y sostener productos complejos, apoyado en empirismo y \textit{lean thinking} \cite{schwaber2020}. El control empirico se basa en tres pilares:
-\begin{itemize}[leftmargin=*]
-    \item \textbf{Transparencia}
-    \item \textbf{Inspeccion}
-    \item \textbf{Adaptacion}
-\end{itemize}
-
-\subsection{Valores Scrum}
-Segun la Scrum Guide, Scrum se sostiene en cinco valores \cite{schwaber2020}:
-\begin{itemize}[leftmargin=*]
-    \item Compromiso
-    \item Foco
-    \item Apertura
-    \item Respeto
-    \item Coraje
-\end{itemize}
-
-\section{Roles Scrum para el Proyecto}
-\subsection{Product Owner}
-Responsable de maximizar valor del producto y gestionar el \textit{Product Backlog}. Define prioridades y criterios de aceptacion.
-
-\subsection{Scrum Master}
-Facilita eventos Scrum, remueve impedimentos y asegura la correcta aplicacion del marco.
-
-\subsection{Developers}
-Equipo multidisciplinario que transforma elementos del \textit{Product Backlog} en incrementos potencialmente liberables durante cada Sprint.
-
-\section{Eventos Scrum y Cadencia}
-\begin{longtable}{>{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{7.0cm}}
-\toprule
-\textbf{Evento} & \textbf{Duracion} & \textbf{Objetivo en el proyecto} \\
-\midrule
-Sprint & 2 semanas & Entregar incremento funcional del MVP. \\
-Sprint Planning & 2 horas & Definir Sprint Goal y seleccionar PBIs. \\
-Daily Scrum & 15 minutos & Sincronizar avance y detectar bloqueos. \\
-Sprint Review & 1.5 horas & Inspeccionar incremento con interesados y obtener feedback. \\
-Sprint Retrospective & 1 hora & Mejorar proceso y acuerdos de trabajo. \\
-\bottomrule
-\end{longtable}
-
-\section{Artefactos Scrum del Proyecto}
-\subsection{Product Backlog}
-Lista ordenada y dinamica de trabajo pendiente para el producto \cite{schwaber2020}. Para este proyecto, las epicas principales son:
-\begin{itemize}[leftmargin=*]
-    \item Autenticacion y gestion de usuarios.
-    \item Registro y gestion de mascotas.
-    \item Visualizacion de modelos 3D base.
-    \item Seguridad y soporte tecnico transversal.
-\end{itemize}
-
-\subsection{Sprint Backlog}
-Conjunto de PBIs seleccionados para el Sprint, mas el plan de entrega. Incluye tareas tecnicas, pruebas y validaciones.
-
-\subsection{Incremento}
-Resultado integrado al final del Sprint que cumple la \textit{Definition of Done} y aporta valor utilizable.
-
-\subsection{Commitments oficiales por artefacto}
-\begin{itemize}[leftmargin=*]
-    \item Product Backlog $\rightarrow$ \textbf{Product Goal}
-    \item Sprint Backlog $\rightarrow$ \textbf{Sprint Goal}
-    \item Incremento $\rightarrow$ \textbf{Definition of Done}
-\end{itemize}
-
-\section{Aplicacion Scrum al MVP}
-\subsection{Product Goal}
-Entregar un MVP funcional en el que una persona usuaria pueda crear cuenta, iniciar sesion y registrar mascotas con informacion basica y fotos, incluyendo visualizacion de modelos 3D base asociables.
-
-\subsection{Sprint Goal propuesto (Sprint 1)}
-Implementar autenticacion completa (registro/login) y alta de mascotas con persistencia en base de datos.
-
-\subsection{PBIs priorizados para Sprint 1}
-\begin{enumerate}[leftmargin=*]
-    \item Registro de usuario con validacion y cifrado de contrasena.
-    \item Inicio de sesion con token JWT.
-    \item Creacion de mascota (nombre, edad, tipo).
-    \item Listado de mascotas por usuario autenticado.
-    \item Validaciones de seguridad y errores de entrada.
-\end{enumerate}
-
-\subsection{Definition of Done (DoD)}
-Un item se considera \textit{Done} cuando cumple:
-\begin{itemize}[leftmargin=*]
-    \item Codigo integrado sin errores de compilacion.
-    \item Pruebas unitarias minimas acordadas por el equipo.
-    \item Endpoint validado funcionalmente.
-    \item Criterios de aceptacion cumplidos.
-    \item Sin vulnerabilidades evidentes de autenticacion/autorizacion.
-\end{itemize}
-
-\section{Trazabilidad de Requisitos Scrum}
-\begin{longtable}{>{\raggedright\arraybackslash}p{1.6cm} >{\raggedright\arraybackslash}p{5.8cm} >{\raggedright\arraybackslash}p{2.7cm} >{\raggedright\arraybackslash}p{3.1cm}}
-\toprule
-\textbf{ID} & \textbf{PBI} & \textbf{Prioridad} & \textbf{Sprint objetivo} \\
-\midrule
-PBI-01 & Registro de usuarios & Alta & Sprint 1 \\
-PBI-02 & Login con JWT & Alta & Sprint 1 \\
-PBI-03 & Registro de mascotas & Alta & Sprint 1 \\
-PBI-04 & Carga de fotos de mascota & Media & Sprint 2 \\
-PBI-05 & Visualizacion modelo 3D base & Media & Sprint 2 \\
-PBI-06 & Personalizacion 3D avanzada & Baja & Post-MVP \\
-\bottomrule
-\end{longtable}
-
-\section{Riesgos y Controles en Scrum}
-\subsection{Riesgos}
-\begin{itemize}[leftmargin=*]
-    \item Sobrecarga de alcance en Sprint (\textit{scope creep}).
-    \item Dependencias tecnicas en carga/render 3D.
-    \item Riesgos de seguridad en autenticacion.
-\end{itemize}
-
-\subsection{Controles}
-\begin{itemize}[leftmargin=*]
-    \item Priorizacion estricta por valor de negocio.
-    \item Revisiones incrementales con demo funcional.
-    \item Retrospectivas con acciones concretas de mejora.
-\end{itemize}
-
-\section{Indicadores de Seguimiento}
-\begin{itemize}[leftmargin=*]
-    \item Velocidad del equipo (story points por Sprint).
-    \item Porcentaje de PBIs completados por Sprint.
-    \item Defectos encontrados en Sprint Review.
-    \item Tiempo de ciclo por historia.
-\end{itemize}
-
-\section{Conclusiones}
-La adopcion de Scrum permite estructurar el desarrollo del proyecto con entregas incrementales, inspeccion continua y adaptacion basada en evidencia. Para este proyecto, Scrum habilita concentrar el esfuerzo en un MVP realista (autenticacion y registro de mascotas), dejando la personalizacion 3D avanzada como expansion posterior de forma controlada.
+\input{scrum/01_contexto}
+\input{scrum/02_equipo_eventos}
+\input{scrum/03_artefactos}
+\input{scrum/04_plan_mvp}
+\input{scrum/05_casos_uso}
+\input{scrum/06_riesgos_anexos}
 
 \newpage
-\begin{thebibliography}{9}
-
-\bibitem{schwaber2020}
-Ken Schwaber and Jeff Sutherland.
-\textit{The Scrum Guide: The Definitive Guide to Scrum: The Rules of the Game}.
-Scrum.org and ScrumInc., 2020.
-Available at: \url{https://www.scrum.org/resources/scrum-guide}
-
-\bibitem{verheyen2020}
-Gunther Verheyen.
-\textit{Scrum -- A Pocket Guide: A Smart Travel Companion}.
-Van Haren Publishing, 3rd edition, 2020.
-
-\bibitem{pichler2010}
-Roman Pichler.
-\textit{Agile Product Management with Scrum: Creating Products that Customers Love}.
-Addison-Wesley, 2010.
-
-\end{thebibliography}
+\bibliographystyle{plain}
+\bibliography{referencias_scrum}
 
 \end{document}

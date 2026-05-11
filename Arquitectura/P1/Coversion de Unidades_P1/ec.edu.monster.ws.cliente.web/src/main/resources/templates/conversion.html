@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Unidades - Panel Principal</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <div class="contenedor-principal">
+        <!-- Barra superior -->
+        <div class="barra-superior">
+            <div class="barra-info">
+                <span class="icono-sm">⚡</span>
+                <span>Conversor de Unidades SOAP</span>
+            </div>
+            <div class="barra-usuario">
+                <span>👤 <span th:text="${usuario}">Usuario</span></span>
+                <a th:href="@{/logout}" class="btn-salir">🚪 Cerrar sesión</a>
+            </div>
+        </div>
+
+        <div class="tarjeta tarjeta-conversion">
+            <h2>📐 Conversión de Unidades</h2>
+
+            <form th:action="@{/convertir}" th:object="${conversionFormulario}" method="post" class="formulario">
+                <!-- Categoría -->
+                <div class="campo">
+                    <label for="categoria">📋 Categoría</label>
+                    <select id="categoria" th:field="*{categoria}" onchange="actualizarUnidades()">
+                        <option value="longitud">📏 Longitud (m, km, cm, mm, in)</option>
+                        <option value="masa">⚖️ Masa (kg, g, mg, t, lb)</option>
+                        <option value="temperatura">🌡️ Temperatura (C, F, K, R, Re)</option>
+                    </select>
+                </div>
+
+                <!-- Valor -->
+                <div class="campo">
+                    <label for="valor">🔢 Valor</label>
+                    <input type="number" id="valor" th:field="*{valor}" step="any"
+                           placeholder="Ingrese el valor" required>
+                </div>
+
+                <!-- Unidades en línea -->
+                <div class="fila-campos">
+                    <div class="campo">
+                        <label for="desde">📥 Unidad Origen</label>
+                        <select id="desde" th:field="*{desde}" required></select>
+                    </div>
+                    <div class="campo">
+                        <label for="hasta">📤 Unidad Destino</label>
+                        <select id="hasta" th:field="*{hasta}" required></select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primario">🔄 Convertir</button>
+            </form>
+
+            <!-- Resultado -->
+            <div th:if="${resultado}" class="resultado">
+                <h3>📊 Resultado</h3>
+                <div class="resultado-valor">
+                    <span th:text="${valorOriginal}"></span>
+                    <span th:text="${unidadDesde}"></span>
+                    <span class="igual"> = </span>
+                    <span class="resultado-numero" th:text="${resultado}"></span>
+                    <span th:text="${unidadHasta}"></span>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div th:if="${error}" class="alerta alerta-error">
+                <span>❌</span> <span th:text="${error}"></span>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        const unidades = {
+            'longitud': ['m', 'km', 'cm', 'mm', 'in'],
+            'masa': ['kg', 'g', 'mg', 't', 'lb'],
+            'temperatura': ['C', 'F', 'K', 'R', 'Re']
+        };
+
+        function actualizarUnidades() {
+            const cat = document.getElementById('categoria').value;
+            const selectDesde = document.getElementById('desde');
+            const selectHasta = document.getElementById('hasta');
+            
+            const opciones = unidades[cat] || [];
+            
+            // Guardar selecciones actuales si existen
+            const selDesde = selectDesde.value;
+            const selHasta = selectHasta.value;
+
+            selectDesde.innerHTML = '';
+            selectHasta.innerHTML = '';
+            
+            opciones.forEach(uni => {
+                selectDesde.add(new Option(uni, uni));
+                selectHasta.add(new Option(uni, uni));
+            });
+
+            // Restaurar selecciones
+            if (opciones.includes(selDesde)) selectDesde.value = selDesde;
+            if (opciones.includes(selHasta)) selectHasta.value = selHasta;
+        }
+
+        // Inicializar al cargar
+        window.onload = function() {
+            actualizarUnidades();
+            
+            // Si venimos de un submit fallido o exitoso, restaurar valores de Thymeleaf
+            const valDesde = /*[[${conversionFormulario.desde}]]*/ null;
+            const valHasta = /*[[${conversionFormulario.hasta}]]*/ null;
+            if (valDesde) document.getElementById('desde').value = valDesde;
+            if (valHasta) document.getElementById('hasta').value = valHasta;
+        };
+    </script>
+</body>
+</html>

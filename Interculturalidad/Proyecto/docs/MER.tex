@@ -1,0 +1,284 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[table]{xcolor}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{margin=2.4cm}
+\setstretch{1.12}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
+
+\definecolor{PrimaryBlue}{HTML}{16324F}
+\definecolor{SoftGray}{HTML}{F3F6F8}
+
+	itle{\Huge\textbf{Modelo Entidad-Relaci\'on}\[0.3em]\Large Plataforma Web de Mascotas 3D}
+\author{Equipo del Proyecto}
+\date{Mayo 2026}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{1.8cm}
+{\Huge\bfseries\color{PrimaryBlue} MER\\[0.35em]}
+{\LARGE Modelo Entidad-Relaci\'on y dise\~no de Base de Datos\\[1.2cm]}
+
+\begin{tabular}{p{5cm} p{8cm}}
+\rowcolor{SoftGray}
+\textbf{Versi\'on} & 1.0 \\
+\textbf{Fecha} & Mayo 2026 \\
+\textbf{Motor BD} & PostgreSQL \\
+\textbf{Alcance} & MVP \\
+\end{tabular}
+
+\vfill
+{\large Documento para compilaci\'on en Overleaf}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Introducci\'on}
+Este documento especifica el modelo de datos de la plataforma. Incluye entidades, atributos, relaciones y restricciones.
+
+\section{Diagrama conceptual}
+
+A nivel conceptual, el modelo incluye:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Usuarios}: Personas que se registran en la plataforma.
+    \item \textbf{Mascotas}: Registros de mascotas propiedad de un usuario.
+    \item \textbf{Modelos 3D}: Archivos de modelos base asociados a tipos de animales.
+    \item \textbf{Fotos}: Im\'agenes de mascotas subidas por usuarios.
+\end{itemize}
+
+\section{Entidades y atributos}
+
+\subsection{Entidad: Usuarios}
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.5cm} p{1.5cm} p{1.5cm} X}
+\toprule
+Atributo & Tipo & Clave & Descripci\'on \\
+\midrule
+id & UUID & PK & Identificador \'unico. \\
+email & VARCHAR(255) & UNIQUE & Correo electr\'onico \'unico. \\
+password\_hash & VARCHAR(255) & & Contrase\~na hasheada (Bcrypt). \\
+nombre & VARCHAR(100) & & Nombre del usuario (opcional). \\
+created\_at & TIMESTAMP & & Fecha y hora de creaci\'on. \\
+updated\_at & TIMESTAMP & & Fecha y hora de \'ultima modificaci\'on. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Entidad: Mascotas}
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.5cm} p{1.5cm} p{1.5cm} X}
+\toprule
+Atributo & Tipo & Clave & Descripci\'on \\
+\midrule
+id & UUID & PK & Identificador \'unico. \\
+usuario\_id & UUID & FK & Referencia a Usuarios. \\
+nombre & VARCHAR(100) & & Nombre de la mascota. \\
+edad & INTEGER & & Edad en a\~nos. \\
+tipo\_animal & VARCHAR(50) & & Gato, Perro, Jaguar, \'Aguila, Serpiente, etc. \\
+descripcion & TEXT & & Informaci\'on adicional. \\
+created\_at & TIMESTAMP & & Fecha de creaci\'on. \\
+updated\_at & TIMESTAMP & & Fecha de \'ultima modificaci\'on. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Entidad: Modelos 3D}
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.5cm} p{1.5cm} p{1.5cm} X}
+\toprule
+Atributo & Tipo & Clave & Descripci\'on \\
+\midrule
+id & UUID & PK & Identificador \'unico. \\
+tipo\_animal & VARCHAR(50) & & Tipo de animal (Gato, Perro, etc.). \\
+nombre & VARCHAR(100) & & Nombre descriptivo. \\
+archivo\_nombre & VARCHAR(255) & & Nombre del archivo GLB/GLTF. \\
+ruta\_almacenamiento & VARCHAR(500) & & Ruta relativa en servidor. \\
+tama\~no\_bytes & BIGINT & & Tama\~no del archivo. \\
+mime\_type & VARCHAR(50) & & Tipo MIME (model/gltf-binary). \\
+created\_at & TIMESTAMP & & Fecha de creaci\'on. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Entidad: Fotos}
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.5cm} p{1.5cm} p{1.5cm} X}
+\toprule
+Atributo & Tipo & Clave & Descripci\'on \\
+\midrule
+id & UUID & PK & Identificador \'unico. \\
+mascota\_id & UUID & FK & Referencia a Mascotas. \\
+nombre\_archivo & VARCHAR(255) & & Nombre del archivo. \\
+ruta\_almacenamiento & VARCHAR(500) & & Ruta en servidor. \\
+tama\~no\_bytes & BIGINT & & Tama\~no de la imagen. \\
+mime\_type & VARCHAR(50) & & Tipo MIME (image/jpeg, image/png). \\
+created\_at & TIMESTAMP & & Fecha de carga. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Relaciones}
+
+\subsection{Relaci\'on: Usuario -- Mascota}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Tipo}: Uno a Muchos (1:N).
+    \item \textbf{Descripci\'on}: Un usuario puede tener m\'ultiples mascotas. Una mascota pertenece a un solo usuario.
+    \item \textbf{Implementaci\'on}: mascota.usuario\_id $\rightarrow$ usuario.id (FK).
+    \item \textbf{Integridad}: ON DELETE CASCADE (si usuario se elimina, sus mascotas se eliminan).
+\end{itemize}
+
+\subsection{Relaci\'on: Mascota -- Foto}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Tipo}: Uno a Muchos (1:N).
+    \item \textbf{Descripci\'on}: Una mascota puede tener m\'ultiples fotos. Una foto pertenece a una sola mascota.
+    \item \textbf{Implementaci\'on}: foto.mascota\_id $\rightarrow$ mascota.id (FK).
+    \item \textbf{Integridad}: ON DELETE CASCADE.
+\end{itemize}
+
+\subsection{Relaci\'on: Mascota -- Modelo 3D}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Tipo}: Muchos a Uno (N:1).
+    \item \textbf{Descripci\'on}: M\'ultiples mascotas pueden asociarse al mismo modelo 3D base seg\'un su tipo de animal.
+    \item \textbf{Implementaci\'on}: mascota.tipo\_animal $\rightarrow$ modelo3d.tipo\_animal (FK l\'ogica).
+\end{itemize}
+
+\section{Trazabilidad funcional}
+\begin{itemize}[leftmargin=*]
+    \item RF-01 y RF-02: Entidad Usuarios.
+    \item RF-03 y RF-04: Entidad Mascotas.
+    \item RF-05: Entidad Mascotas, Fotos y Modelos 3D.
+    \item RF-06: Entidad Fotos.
+    \item RF-07: Entidad Modelos 3D y l\'ogica de administraci\'on.
+\end{itemize}
+
+\subsection{Observaci\'on sobre sesi\'on}
+La expiraci\'on por inactividad (RNF-05) se gestiona en la capa de aplicaci\'on y no requiere una entidad persistente dedicada en el modelo conceptual.
+
+\section{Restricciones}
+
+\subsection{Restricciones de dominio}
+\begin{itemize}[leftmargin=*]
+    \item email en Usuarios: debe ser \'unico y v\'alido.
+    \item edad en Mascotas: debe ser $\geq 0$.
+    \item tipo\_animal: solo valores permitidos (Gato, Perro, Jaguar, \'Aguila, Serpiente).
+    \item tama\~no\_bytes en Fotos: $\leq$ 5242880 (5MB).
+\end{itemize}
+
+\subsection{Restricciones de integridad}
+\begin{itemize}[leftmargin=*]
+    \item Integridad referencial: mascota.usuario\_id debe existir en usuarios.id.
+    \item Integridad referencial: foto.mascota\_id debe existir en mascotas.id.
+    \item Unicidad: (usuario.email) \'unico.
+\end{itemize}
+
+\section{Script SQL de creaci\'on}
+
+\subsection{Tabla Usuarios}
+\begin{verbatim}
+CREATE TABLE usuarios (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  nombre VARCHAR(100),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+\end{verbatim}
+
+\subsection{Tabla Mascotas}
+\begin{verbatim}
+CREATE TABLE mascotas (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  usuario_id UUID NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+  nombre VARCHAR(100) NOT NULL,
+  edad INTEGER,
+  tipo_animal VARCHAR(50) NOT NULL,
+  descripcion TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_mascotas_usuario_id ON mascotas(usuario_id);
+\end{verbatim}
+
+\subsection{Tabla Modelos 3D}
+\begin{verbatim}
+CREATE TABLE modelos3d (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tipo_animal VARCHAR(50) UNIQUE NOT NULL,
+  nombre VARCHAR(100) NOT NULL,
+  archivo_nombre VARCHAR(255) NOT NULL,
+  ruta_almacenamiento VARCHAR(500) NOT NULL,
+  tamano_bytes BIGINT,
+  mime_type VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+\end{verbatim}
+
+\subsection{Tabla Fotos}
+\begin{verbatim}
+CREATE TABLE fotos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  mascota_id UUID NOT NULL REFERENCES mascotas(id) ON DELETE CASCADE,
+  nombre_archivo VARCHAR(255) NOT NULL,
+  ruta_almacenamiento VARCHAR(500) NOT NULL,
+  tamano_bytes BIGINT,
+  mime_type VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_fotos_mascota_id ON fotos(mascota_id);
+\end{verbatim}
+
+\section{Consideraciones de dise\~no}
+
+\subsection{Normalizaci\'on}
+\begin{itemize}[leftmargin=*]
+    \item El modelo est\'a en Tercera Forma Normal (3NF).
+    \item No hay redundancia innecesaria.
+    \item Relaciones bien definidas.
+\end{itemize}
+
+\subsection{\'Indices}
+\begin{itemize}[leftmargin=*]
+    \item \'Indice en usuarios.email para b\'usquedas de login r\'apidas.
+    \item \'Indice en mascotas.usuario\_id para filtrados por usuario.
+    \item \'Indice en fotos.mascota\_id para relaciones.
+\end{itemize}
+
+\subsection{Escalabilidad}
+\begin{itemize}[leftmargin=*]
+    \item UUIDs en lugar de enteros para distribuci\'on futura.
+    \item Timestamps para auditor\'ia y control de cambios.
+    \item Dise\~no sin dependen cias circulares.
+\end{itemize}
+
+\end{document}

@@ -106,3 +106,11 @@ desktop.ini
 # Ignores any `.git` directory inside subfolders; the root repository's `.git` is not affected.
 **/.git
 .gitmodules
+/Arquitectura/WS_ConUni_SOAP_Java_GR04/WS_ConUni_SOAP_Java_GR04/nbproject/private/
+/Arquitectura/WS_ConUni_SOAP_Java_GR04/WS/nbproject/private/
+/Arquitectura/WS_ConUni_SOAP_Java_GR04/ec.edu.monster.ws/nbproject/private/
+/Arquitectura/WS_ConUni_SOAP_Java_GR04/TranformacionUnidades/nbproject/private/
+/Arquitectura/P1/Coversion de Unidades_P1/ec.edu.monster.ws/nbproject/private/
+/Arquitectura/P1/Coversion de Unidades_P1/ec.edu.monster.ws.cliente.web/target/
+/Arquitectura/P1/Coversion de Unidades_P1/ec.edu.monster.ws.cliente.escritorio/target/
+/Arquitectura/P1/Coversion de Unidades_P1/ec.edu.monster.ws.cliente.consola/target/

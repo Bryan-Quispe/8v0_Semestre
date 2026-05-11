@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TemaApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/acento_primario</item>
+        <item name="colorPrimaryVariant">@color/acento_secundario</item>
+        <item name="android:windowBackground">@color/fondo_principal</item>
+        <item name="android:statusBarColor">@color/fondo_barra</item>
+    </style>
+</resources>

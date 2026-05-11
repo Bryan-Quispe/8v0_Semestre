@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Conversor de Unidades</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+    <div class="contenedor-principal">
+        <div class="tarjeta tarjeta-login">
+            <div class="logo">
+                <span class="icono">⚡</span>
+                <h1>Conversor de Unidades</h1>
+                <p class="subtitulo">SOAP Web Service - Grupo 04</p>
+                <p class="subtitulo">ec.edu.monster.ws - Cliente Web</p>
+            </div>
+
+            <form th:action="@{/login}" th:object="${loginFormulario}" method="post" class="formulario">
+                <div class="campo">
+                    <label for="usuario">🔑 Usuario</label>
+                    <input type="text" id="usuario" th:field="*{usuario}"
+                           placeholder="Ingrese su usuario" required autofocus>
+                </div>
+
+                <div class="campo">
+                    <label for="clave">🔒 Contraseña</label>
+                    <div class="input-con-ojito" style="position: relative; display: flex; align-items: center;">
+                        <input type="password" id="clave" th:field="*{clave}"
+                               placeholder="Ingrese su contraseña" required style="width: 100%; padding-right: 40px;">
+                        <button type="button" onclick="toggleClave()" style="position: absolute; right: 10px; background: none; border: none; font-size: 18px; cursor: pointer; color: #a5b4fc;">👁️</button>
+                    </div>
+                </div>
+
+                <div th:if="${error}" class="alerta alerta-error">
+                    <span>❌</span> <span th:text="${error}"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primario">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function toggleClave() {
+            const input = document.getElementById('clave');
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ec.edu.monster.ws.cliente.escritorio.controladores.LoginControlador"
+      alignment="CENTER" spacing="16" styleClass="contenedor-login">
+    <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+
+    <!-- Logo -->
+    <Label text="⚡" styleClass="icono-grande"/>
+    <Label text="Conversor de Unidades" styleClass="titulo"/>
+    <Label text="SOAP Web Service - Grupo 04" styleClass="subtitulo"/>
+    <Label text="ec.edu.monster.ws - Cliente Escritorio" styleClass="subtitulo"/>
+
+    <Region prefHeight="10"/>
+
+    <!-- Formulario -->
+    <Label text="🔑 Usuario" styleClass="etiqueta"/>
+    <TextField fx:id="txtUsuario" promptText="Ingrese su usuario" styleClass="campo-texto"/>
+
+    <Label text="🔒 Contraseña" styleClass="etiqueta"/>
+    <StackPane alignment="CENTER_RIGHT">
+        <PasswordField fx:id="txtClave" promptText="Ingrese su contraseña" styleClass="campo-texto"
+                       onAction="#procesarLogin"/>
+        <TextField fx:id="txtClaveVisible" promptText="Ingrese su contraseña" styleClass="campo-texto"
+                   onAction="#procesarLogin" visible="false"/>
+    </StackPane>
+    <CheckBox fx:id="chkMostrarClave" text="👁 Mostrar contraseña" style="-fx-text-fill: #9ca3af;"/>
+
+    <Label fx:id="lblError" text="" styleClass="error" visible="false"/>
+
+    <Region prefHeight="5"/>
+
+    <Button fx:id="btnLogin" text="Iniciar Sesión" onAction="#procesarLogin"
+            styleClass="boton-primario" maxWidth="Infinity"/>
+</VBox>

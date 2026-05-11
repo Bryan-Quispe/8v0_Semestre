@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores consistentes con los demás clientes -->
+    <color name="fondo_principal">#0A0A1A</color>
+    <color name="fondo_barra">#0A0A1E</color>
+    <color name="fondo_campo">#0F0F28</color>
+    <color name="fondo_resultado">#0A2D1A</color>
+
+    <color name="titulo">#A5B4FC</color>
+    <color name="acento_primario">#6366F1</color>
+    <color name="acento_secundario">#4F46E5</color>
+
+    <color name="texto_principal">#E0E0E0</color>
+    <color name="texto_secundario">#6B7280</color>
+    <color name="texto_hint">#4B5563</color>
+    <color name="etiqueta">#9CA3AF</color>
+
+    <color name="exito">#34D399</color>
+    <color name="error">#FCA5A5</color>
+</resources>

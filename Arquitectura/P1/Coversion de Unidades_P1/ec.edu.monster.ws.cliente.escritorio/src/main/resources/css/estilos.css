@@ -1,0 +1,161 @@
+/* ============================================
+   Estilos JavaFX - Conversor de Unidades
+   Tema oscuro con acentos azules
+   ============================================ */
+
+/* Contenedores principales */
+.contenedor-login, .contenedor-conversion {
+    -fx-background-color: linear-gradient(to bottom right, #0a0a1a, #1a1a3e);
+}
+
+/* Títulos */
+.titulo {
+    -fx-text-fill: #a5b4fc;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.titulo-seccion {
+    -fx-text-fill: #a5b4fc;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.subtitulo {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 12px;
+}
+
+.icono-grande {
+    -fx-font-size: 40px;
+}
+
+/* Campos de texto */
+.campo-texto {
+    -fx-background-color: rgba(15, 15, 40, 0.9);
+    -fx-text-fill: #e0e0e0;
+    -fx-border-color: rgba(100, 100, 255, 0.2);
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 14px;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #4b5563;
+}
+
+.campo-texto:focused {
+    -fx-border-color: #6366f1;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 10, 0, 0, 0);
+}
+
+/* ComboBox */
+.combo {
+    -fx-background-color: rgba(15, 15, 40, 0.9);
+    -fx-border-color: rgba(100, 100, 255, 0.2);
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 10px;
+}
+
+.combo .list-cell {
+    -fx-text-fill: #e0e0e0;
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #1a1a3e;
+}
+
+.combo-box-popup .list-cell {
+    -fx-text-fill: #e0e0e0;
+    -fx-background-color: #1a1a3e;
+    -fx-padding: 8px 14px;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #2a2a5e;
+}
+
+/* Etiquetas */
+.etiqueta {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Botones */
+.boton-primario {
+    -fx-background-color: linear-gradient(to right, #6366f1, #4f46e5);
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 24px;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.4), 10, 0, 0, 4);
+}
+
+.boton-primario:hover {
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.6), 16, 0, 0, 4);
+}
+
+.boton-salir {
+    -fx-background-color: transparent;
+    -fx-text-fill: #f87171;
+    -fx-border-color: rgba(248, 113, 113, 0.3);
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 12px;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.boton-salir:hover {
+    -fx-background-color: rgba(248, 113, 113, 0.15);
+}
+
+/* Resultado */
+.resultado {
+    -fx-background-color: rgba(16, 185, 129, 0.12);
+    -fx-border-color: rgba(16, 185, 129, 0.3);
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 16px;
+    -fx-text-fill: #34d399;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+/* Error */
+.error {
+    -fx-background-color: rgba(239, 68, 68, 0.12);
+    -fx-border-color: rgba(239, 68, 68, 0.3);
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 12px;
+    -fx-text-fill: #fca5a5;
+    -fx-font-size: 13px;
+    -fx-alignment: center;
+}
+
+/* Barra superior */
+.barra-superior-fx {
+    -fx-background-color: rgba(10, 10, 30, 0.9);
+    -fx-padding: 10px 16px;
+    -fx-background-radius: 10px;
+    -fx-border-color: rgba(100, 100, 255, 0.1);
+    -fx-border-radius: 10px;
+}
+
+.barra-titulo {
+    -fx-text-fill: #a5b4fc;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.barra-usuario {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 13px;
+}

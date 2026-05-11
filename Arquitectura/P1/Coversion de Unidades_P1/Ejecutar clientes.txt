@@ -1,0 +1,20 @@
+1. 💻 Para iniciar el Cliente de Consola
+powershell
+cd "C:\Users\BRYAN-PC\Desktop\8vo Semestre\Arquitectura\P1\Coversion de Unidades_P1\ec.edu.monster.ws.cliente.consola"
+$env:JAVA_HOME="C:\Program Files\Java\jdk1.8.0_202"
+& "C:\netbeans-29-bin\netbeans\java\maven\bin\mvn.cmd" compile exec:java
+2. 🌐 Para iniciar el Cliente Web
+powershell
+cd "C:\Users\BRYAN-PC\Desktop\8vo Semestre\Arquitectura\P1\Coversion de Unidades_P1\ec.edu.monster.ws.cliente.web"
+$env:JAVA_HOME="C:\Program Files\Java\jdk1.8.0_202"
+& "C:\netbeans-29-bin\netbeans\java\maven\bin\mvn.cmd" spring-boot:run
+(Luego entra en tu navegador a http://localhost:9090)
+
+3. 🖥️ Para iniciar el Cliente de Escritorio (JavaFX)
+Nota: Este usa jdk-21.0.10 porque JavaFX requiere una versión más moderna que la 8.
+
+powershell
+cd "C:\Users\BRYAN-PC\Desktop\8vo Semestre\Arquitectura\P1\Coversion de Unidades_P1\ec.edu.monster.ws.cliente.escritorio"
+$env:JAVA_HOME="C:\Program Files\Java\jdk-21.0.10"
+& "C:\netbeans-29-bin\netbeans\java\maven\bin\mvn.cmd" javafx:run
+4. 📱 Para el Cliente Móvil (Android)

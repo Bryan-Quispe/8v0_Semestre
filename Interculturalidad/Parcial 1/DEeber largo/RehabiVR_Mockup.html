@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RehabiVR - Mockup del Sistema</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --azul: #1A3A5C;
+    --azul-m: #2E75B6;
+    --azul-c: #4FA8E0;
+    --verde: #2D6A27;
+    --verde-c: #4CAF50;
+    --bg: #0D1B2A;
+    --bg2: #112233;
+    --surface: #162840;
+    --surface2: #1E3550;
+    --border: #2E4A6A;
+    --text: #E8F1F8;
+    --text2: #8BABC8;
+    --accent: #00D4FF;
+    --warn: #FF6B35;
+    --success: #39D98A;
+    --danger: #FF4D6D;
+    --radius: 12px;
+    --font-h: 'Syne', sans-serif;
+    --font-b: 'Inter', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-b);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-h);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    margin-right: 32px;
+    white-space: nowrap;
+  }
+  .nav-logo span { color: var(--text2); font-weight: 400; font-size: 13px; margin-left: 8px; }
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    height: 100%;
+    flex: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tab {
+    padding: 0 18px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .nav-tab:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-tab .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--text2);
+  }
+  .nav-tab.active .dot { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+
+  .badge {
+    background: var(--azul-m);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 20px;
+    margin-left: 4px;
+  }
+  .badge.green { background: var(--verde); }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* LAYOUT HELPERS */
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-sidebar { display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: var(--font-h);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .card-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-header h2 {
+    font-family: var(--font-h);
+    font-weight: 800;
+    font-size: 22px;
+  }
+  .section-badge {
+    background: var(--azul-m);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* STAT CARDS */
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stat-label { font-size: 12px; color: var(--text2); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-family: var(--font-h); font-size: 28px; font-weight: 800; }
+  .stat-sub { font-size: 12px; color: var(--text2); }
+  .stat-value.accent { color: var(--accent); }
+  .stat-value.green { color: var(--success); }
+  .stat-value.warn { color: var(--warn); }
+
+  /* PATIENT LIST */
+  .patient-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 1px solid transparent;
+  }
+  .patient-row:hover { background: var(--surface2); border-color: var(--border); }
+  .patient-row.selected { background: rgba(46,117,182,0.2); border-color: var(--azul-m); }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; flex-shrink: 0;
+  }
+  .patient-info { flex: 1; min-width: 0; }
+  .patient-name { font-weight: 600; font-size: 14px; }
+  .patient-meta { font-size: 12px; color: var(--text2); }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .status-dot.active { background: var(--success); box-shadow: 0 0 6px var(--success); }
+  .status-dot.pending { background: var(--warn); }
+  .status-dot.inactive { background: var(--text2); }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600; font-size: 13px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    font-family: var(--font-b);
+  }
+  .btn-primary { background: var(--azul-m); color: white; }
+  .btn-primary:hover { background: var(--azul-c); }
+  .btn-success { background: var(--success); color: #0a1a0a; }
+  .btn-success:hover { opacity: 0.9; }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--azul-m); color: var(--accent); }
+  .btn-danger { background: var(--danger); color: white; }
+  .btn-sm { padding: 5px 12px; font-size: 12px; }
+
+  /* SCENARIO CARDS */
+  .scenario-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    overflow: hidden;
+  }
+  .scenario-card:hover { border-color: var(--azul-m); transform: translateY(-2px); }
+  .scenario-card.selected { border-color: var(--accent); box-shadow: 0 0 20px rgba(0,212,255,0.2); }
+  .scenario-thumb {
+    height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    position: relative;
+  }
+  .scenario-body { padding: 14px 16px; }
+  .scenario-name { font-family: var(--font-h); font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .scenario-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .scenario-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 20px;
+    background: rgba(46,117,182,0.2); color: var(--azul-c);
+    border: 1px solid rgba(46,117,182,0.3);
+  }
+
+  /* SENSOR PANEL */
+  .sensor-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+  }
+  .sensor-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    background: rgba(0,212,255,0.1);
+  }
+  .sensor-info { flex: 1; }
+  .sensor-name { font-weight: 600; font-size: 13px; }
+  .sensor-value { font-size: 12px; color: var(--accent); font-weight: 700; }
+  .sensor-status { font-size: 11px; color: var(--text2); }
+
+  /* METRIC RING */
+  .metric-ring {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .ring-wrap { position: relative; width: 80px; height: 80px; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-label {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .ring-pct { font-family: var(--font-h); font-weight: 800; font-size: 16px; }
+  .ring-name { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+  /* VR SCREEN */
+  .vr-viewport {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #0a1628 0%, #112244 50%, #0a1628 100%);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--border);
+  }
+  .vr-scene {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .vr-ground {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+    background: linear-gradient(180deg, transparent 0%, rgba(46,117,182,0.1) 100%);
+  }
+  .vr-grid {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+    background-image: linear-gradient(rgba(46,117,182,0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46,117,182,0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    perspective: 400px;
+    transform: perspective(400px) rotateX(60deg);
+    transform-origin: bottom center;
+  }
+  .vr-object {
+    width: 80px; height: 80px;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+    box-shadow: 0 0 30px rgba(0,212,255,0.3);
+    background: rgba(0,212,255,0.05);
+    cursor: pointer;
+    z-index: 2;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .vr-hud {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+  }
+  .hud-top {
+    position: absolute; top: 16px; left: 16px; right: 16px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .hud-bottom {
+    position: absolute; bottom: 16px; left: 16px; right: 16px;
+    display: flex; justify-content: center;
+  }
+  .hud-box {
+    background: rgba(13,27,42,0.8);
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 8px;
+    padding: 8px 14px;
+    backdrop-filter: blur(8px);
+  }
+  .hud-label { font-size: 11px; color: var(--text2); }
+  .hud-value { font-family: var(--font-h); font-weight: 800; font-size: 18px; color: var(--accent); }
+  .hud-instruction {
+    font-size: 14px; font-weight: 600; color: var(--text);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+  .vr-hand {
+    position: absolute;
+    font-size: 40px;
+    animation: handMove 4s ease-in-out infinite;
+    bottom: 15%; right: 20%;
+    z-index: 2;
+  }
+  @keyframes handMove {
+    0%,100%{transform: translate(0,0) rotate(-10deg);}
+    50%{transform: translate(-20px,-30px) rotate(10deg);}
+  }
+
+  /* REPORT */
+  .report-stat {
+    text-align: center;
+    padding: 16px;
+    background: var(--surface2);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .report-stat-val { font-family: var(--font-h); font-size: 32px; font-weight: 800; }
+  .report-stat-lbl { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+  /* CHART (simple bars) */
+  .bar-chart {
+    display: flex; align-items: flex-end; gap: 10px;
+    height: 120px;
+    padding-top: 8px;
+  }
+  .bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+  .bar { width: 100%; border-radius: 6px 6px 0 0; transition: height 1s ease; }
+  .bar-lbl { font-size: 11px; color: var(--text2); }
+  .bar-val { font-size: 11px; font-weight: 700; color: var(--text); }
+
+  /* TIMELINE */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: flex; gap: 16px;
+    position: relative;
+  }
+  .tl-line {
+    display: flex; flex-direction: column; align-items: center;
+    width: 24px; flex-shrink: 0;
+  }
+  .tl-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--azul-m);
+    background: var(--bg);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .tl-dot.done { background: var(--success); border-color: var(--success); }
+  .tl-dot.current { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .tl-connector {
+    width: 2px; flex: 1;
+    background: var(--border);
+    margin: 4px 0;
+    min-height: 24px;
+  }
+  .tl-content { flex: 1; padding-bottom: 20px; }
+  .tl-title { font-weight: 600; font-size: 13px; }
+  .tl-sub { font-size: 12px; color: var(--text2); }
+
+  /* PILL TAGS */
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+  }
+  .pill-blue { background: rgba(46,117,182,0.2); color: var(--azul-c); border: 1px solid rgba(46,117,182,0.4); }
+  .pill-green { background: rgba(57,217,138,0.15); color: var(--success); border: 1px solid rgba(57,217,138,0.3); }
+  .pill-warn { background: rgba(255,107,53,0.15); color: var(--warn); border: 1px solid rgba(255,107,53,0.3); }
+
+  /* NUI BADGES */
+  .nui-badge {
+    padding: 6px 14px 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface2);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .nui-badge.active { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.08); }
+  .nui-icon { font-size: 18px; }
+
+  /* VOICE INDICATOR */
+  .voice-bar {
+    display: flex; align-items: flex-end; gap: 3px; height: 24px;
+  }
+  .voice-bar span {
+    width: 4px; border-radius: 2px; background: var(--accent);
+    animation: voiceAnim 0.8s ease-in-out infinite;
+  }
+  .voice-bar span:nth-child(1){height:8px;animation-delay:0s}
+  .voice-bar span:nth-child(2){height:16px;animation-delay:0.1s}
+  .voice-bar span:nth-child(3){height:20px;animation-delay:0.2s}
+  .voice-bar span:nth-child(4){height:12px;animation-delay:0.3s}
+  .voice-bar span:nth-child(5){height:18px;animation-delay:0.4s}
+  @keyframes voiceAnim {
+    0%,100%{transform:scaleY(0.4)} 50%{transform:scaleY(1)}
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-sidebar { grid-template-columns: 1fr; }
+    .nav-logo span { display: none; }
+  }
+
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+  .flex { display: flex; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .gap-2 { gap: 8px; }
+  .gap-3 { gap: 12px; }
+  .mt-4 { margin-top: 16px; }
+  .mt-3 { margin-top: 12px; }
+  .text-sm { font-size: 13px; }
+  .text-xs { font-size: 12px; }
+  .text-muted { color: var(--text2); }
+  .font-bold { font-weight: 700; }
+  .w-full { width: 100%; }
+
+  /* ALERT */
+  .alert {
+    padding: 12px 16px; border-radius: 8px;
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px; margin-bottom: 12px;
+  }
+  .alert-info { background: rgba(46,117,182,0.15); border: 1px solid rgba(46,117,182,0.4); }
+  .alert-success { background: rgba(57,217,138,0.1); border: 1px solid rgba(57,217,138,0.3); color: var(--success); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">RehabiVR <span>Sistema de Rehabilitacion</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showScreen('dashboard')">
+      <span class="dot"></span> Dashboard
+    </button>
+    <button class="nav-tab" onclick="showScreen('escenarios')">
+      <span class="dot"></span> Escenarios <span class="badge">6</span>
+    </button>
+    <button class="nav-tab" onclick="showScreen('sesion')">
+      <span class="dot"></span> Sesion Activa <span class="badge green">LIVE</span>
+    </button>
+    <button class="nav-tab" onclick="showScreen('sensores')">
+      <span class="dot"></span> Sensores / NUI
+    </button>
+    <button class="nav-tab" onclick="showScreen('reporte')">
+      <span class="dot"></span> Reporte
+    </button>
+  </div>
+</nav>
+
+<!-- ===== SCREEN 1: DASHBOARD ===== -->
+<div class="screen active" id="screen-dashboard">
+<div class="container">
+  <div class="section-header">
+    <h2>Panel del Terapeuta</h2>
+    <span class="section-badge">Pantalla 1</span>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:20px">
+    <div class="stat">
+      <div class="stat-label">Pacientes activos hoy</div>
+      <div class="stat-value accent">4</div>
+      <div class="stat-sub">+1 desde ayer</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Sesiones completadas</div>
+      <div class="stat-value green">12</div>
+      <div class="stat-sub">Esta semana</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Progreso promedio</div>
+      <div class="stat-value warn">73%</div>
+      <div class="stat-sub">Vs meta semanal</div>
+    </div>
+  </div>
+
+  <div class="grid-sidebar">
+    <!-- Patient list -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Pacientes</div>
+          <div class="card-sub">Selecciona para iniciar sesion</div>
+        </div>
+      </div>
+      <div id="patient-list">
+        <div class="patient-row selected" onclick="selectPatient(this, 'Maria G.')">
+          <div class="avatar" style="background:rgba(0,212,255,0.15);color:var(--accent)">MG</div>
+          <div class="patient-info">
+            <div class="patient-name">Maria Garcia</div>
+            <div class="patient-meta">ACV · Sesion 14</div>
+            <div class="progress-bar mt-3">
+              <div class="progress-fill" style="width:78%;background:var(--success)"></div>
+            </div>
+          </div>
+          <div class="status-dot active"></div>
+        </div>
+        <div class="patient-row" onclick="selectPatient(this, 'Carlos M.')">
+          <div class="avatar" style="background:rgba(46,117,182,0.15);color:var(--azul-c)">CM</div>
+          <div class="patient-info">
+            <div class="patient-name">Carlos Martinez</div>
+            <div class="patient-meta">Parkinson · Sesion 8</div>
+            <div class="progress-bar mt-3">
+              <div class="progress-fill" style="width:55%;background:var(--warn)"></div>
+            </div>
+          </div>
+          <div class="status-dot pending"></div>
+        </div>
+        <div class="patient-row" onclick="selectPatient(this, 'Ana R.')">
+          <div class="avatar" style="background:rgba(57,217,138,0.15);color:var(--success)">AR</div>
+          <div class="patient-info">
+            <div class="patient-name">Ana Rodriguez</div>
+            <div class="patient-meta">Lesion medular · Sesion 21</div>
+            <div class="progress-bar mt-3">
+              <div class="progress-fill" style="width:91%;background:var(--success)"></div>
+            </div>
+          </div>
+          <div class="status-dot active"></div>
+        </div>
+        <div class="patient-row" onclick="selectPatient(this, 'Pedro L.')">
+          <div class="avatar" style="background:rgba(255,77,109,0.15);color:var(--danger)">PL</div>
+          <div class="patient-info">
+            <div class="patient-name">Pedro Lopez</div>
+            <div class="patient-meta">Esclerosis · Sesion 3</div>
+            <div class="progress-bar mt-3">
+              <div class="progress-fill" style="width:32%;background:var(--danger)"></div>
+            </div>
+          </div>
+          <div class="status-dot inactive"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right panel -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Maria Garcia</div>
+            <div class="card-sub">ACV isquemico · 58 anos · F</div>
+          </div>
+          <span class="pill pill-green">✓ Activa</span>
+        </div>
+        <div class="divider"></div>
+        <div class="grid-2">
+          <div>
+            <div class="text-xs text-muted">Objetivo terapeutico</div>
+            <div class="text-sm mt-3" style="margin-top:4px;font-weight:500">Extension brazo derecho · Precision motora fina</div>
+          </div>
+          <div>
+            <div class="text-xs text-muted">Ultimo escenario</div>
+            <div class="text-sm mt-3" style="margin-top:4px;font-weight:500">🏥 Consulta medica virtual</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="alert alert-info">
+          ℹ️ Recomendacion: Aumentar dificultad de agarre. La paciente supero el 78% en precision esta semana.
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-primary" onclick="showScreen('escenarios')">▶ Iniciar nueva sesion</button>
+          <button class="btn btn-outline btn-sm" onclick="showScreen('reporte')">📄 Ver historial</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Sesiones recientes</div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-line">
+              <div class="tl-dot done"></div>
+              <div class="tl-connector"></div>
+            </div>
+            <div class="tl-content">
+              <div class="tl-title">Sesion #14 · Hogar virtual</div>
+              <div class="tl-sub">Hoy 09:30 · 45 min · Precision 78%</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-line">
+              <div class="tl-dot done"></div>
+              <div class="tl-connector"></div>
+            </div>
+            <div class="tl-content">
+              <div class="tl-title">Sesion #13 · Parque terapeutico</div>
+              <div class="tl-sub">Ayer 10:00 · 40 min · Precision 71%</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-line">
+              <div class="tl-dot done"></div>
+            </div>
+            <div class="tl-content">
+              <div class="tl-title">Sesion #12 · Consulta medica</div>
+              <div class="tl-sub">Lun 11:15 · 35 min · Precision 65%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== SCREEN 2: ESCENARIOS ===== -->
+<div class="screen" id="screen-escenarios">
+<div class="container">
+  <div class="section-header">
+    <h2>Seleccion de Escenario Virtual</h2>
+    <span class="section-badge">Pantalla 2</span>
+  </div>
+  <div class="alert alert-info" style="margin-bottom:20px">
+    🎯 Paciente: <strong>Maria Garcia</strong> · Objetivo: Extension y precision motora del brazo derecho
+  </div>
+  <div class="grid-3" id="scenario-grid">
+    <div class="scenario-card selected" onclick="selectScenario(this)">
+      <div class="scenario-thumb" style="background:linear-gradient(135deg,#1a2a1a,#2d4a2d)">🏠</div>
+      <div class="scenario-body">
+        <div class="scenario-name">Hogar Virtual</div>
+        <div class="scenario-desc">Cocina y sala de estar. Ejercicios de alcance y manipulacion de objetos cotidianos.</div>
+        <div class="scenario-tags">
+          <span class="tag">Motricidad fina</span>
+          <span class="tag">Coordinacion</span>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card" onclick="selectScenario(this)">
+      <div class="scenario-thumb" style="background:linear-gradient(135deg,#1a1a2e,#2e2e5a)">🏥</div>
+      <div class="scenario-body">
+        <div class="scenario-name">Consulta Medica</div>
+        <div class="scenario-desc">Sala de consulta. Uso de herramientas medicas virtuales para ejercicios de precision.</div>
+        <div class="scenario-tags">
+          <span class="tag">Precision</span>
+          <span class="tag">Concentracion</span>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card" onclick="selectScenario(this)">
+      <div class="scenario-thumb" style="background:linear-gradient(135deg,#0a2a1a,#1a4a2a)">🌳</div>
+      <div class="scenario-body">
+        <div class="scenario-name">Parque Terapeutico</div>
+        <div class="scenario-desc">Exterior relajante. Ejercicios de balance, alcance y movimiento de brazos al aire libre.</div>
+        <div class="scenario-tags">
+          <span class="tag">Balance</span>
+          <span class="tag">Amplitud</span>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card" onclick="selectScenario(this)">
+      <div class="scenario-thumb" style="background:linear-gradient(135deg,#2a1a0a,#4a3a1a)">🎨</div>
+      <div class="scenario-body">
+        <div class="scenario-name">Taller Artistico</div>
+        <div class="scenario-desc">Actividades de pintura y modelado virtual. Estimulacion cognitiva y motora simultanea.</div>
+        <div class="scenario-tags">
+          <span class="tag">Cognitivo</span>
+          <span class="tag">Creativo</span>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card" onclick="selectScenario(this)">
+      <div class="scenario-thumb" style="background:linear-gradient(135deg,#0a1a2a,#1a3a4a)">🎮</div>
+      <div class="scenario-body">
+        <div class="scenario-name">Mini-juegos Motores</div>
+        <div class="scenario-desc">Serie de minijuegos gamificados para rehabilitacion con niveles progresivos de dificultad.</div>
+        <div class="scenario-tags">
+          <span class="tag">Gamificacion</span>
+          <span class="tag">Progresivo</span>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card" onclick="selectScenario(this)">
+      <div class="scenario-thumb" style="background:linear-gradient(135deg,#1a0a2a,#3a1a5a)">🧘</div>
+      <div class="scenario-body">
+        <div class="scenario-name">Sala de Meditacion</div>
+        <div class="scenario-desc">Entorno calmado para ejercicios de respiracion y movimientos suaves de recuperacion.</div>
+        <div class="scenario-tags">
+          <span class="tag">Relajacion</span>
+          <span class="tag">Respiracion</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex gap-2 mt-4" style="margin-top:24px;justify-content:flex-end">
+    <button class="btn btn-outline" onclick="showScreen('dashboard')">← Volver</button>
+    <button class="btn btn-success" onclick="showScreen('sesion')">▶ Iniciar Sesion con escenario seleccionado</button>
+  </div>
+</div>
+</div>
+
+<!-- ===== SCREEN 3: SESION ACTIVA ===== -->
+<div class="screen" id="screen-sesion">
+<div class="container">
+  <div class="section-header">
+    <h2>Sesion Activa en Tiempo Real</h2>
+    <span class="section-badge">Pantalla 3 + 4</span>
+    <span class="pill pill-green" style="margin-left:auto">● LIVE</span>
+  </div>
+
+  <div class="grid-sidebar">
+    <!-- VR Viewport -->
+    <div style="grid-column:1/-1">
+      <div class="vr-viewport">
+        <div class="vr-scene">
+          <div class="vr-grid"></div>
+          <!-- Floating objects -->
+          <div style="position:absolute;top:25%;left:30%;z-index:2">
+            <div class="vr-object" title="Objeto interactivo">🍵</div>
+          </div>
+          <div style="position:absolute;top:35%;left:55%;z-index:2">
+            <div class="vr-object" style="animation-delay:1.5s;border-color:var(--verde-c);box-shadow:0 0 20px rgba(76,175,80,0.3)">📦</div>
+          </div>
+          <div class="vr-hand">🖐️</div>
+        </div>
+        <div class="vr-hud">
+          <div class="hud-top">
+            <div class="hud-box">
+              <div class="hud-label">Precision</div>
+              <div class="hud-value" id="hud-precision">82%</div>
+            </div>
+            <div class="hud-box">
+              <div class="hud-label">Puntos</div>
+              <div class="hud-value" id="hud-puntos">1,240</div>
+            </div>
+            <div class="hud-box">
+              <div class="hud-label">Tiempo</div>
+              <div class="hud-value" id="hud-tiempo">12:34</div>
+            </div>
+          </div>
+          <div class="hud-bottom">
+            <div class="hud-box">
+              <div class="hud-instruction">✋ Extiende el brazo y toma el objeto</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Metrics -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px">Metricas en tiempo real</div>
+        <div class="flex justify-between" style="flex-wrap:wrap;gap:16px">
+          <div class="metric-ring">
+            <div class="ring-wrap">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--border)" stroke-width="8"/>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--success)" stroke-width="8"
+                  stroke-dasharray="201" stroke-dashoffset="44" stroke-linecap="round"/>
+              </svg>
+              <div class="ring-label">
+                <div class="ring-pct" style="color:var(--success)">78%</div>
+              </div>
+            </div>
+            <div class="ring-name">Amplitud</div>
+          </div>
+          <div class="metric-ring">
+            <div class="ring-wrap">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--border)" stroke-width="8"/>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--accent)" stroke-width="8"
+                  stroke-dasharray="201" stroke-dashoffset="36" stroke-linecap="round"/>
+              </svg>
+              <div class="ring-label">
+                <div class="ring-pct" style="color:var(--accent)">82%</div>
+              </div>
+            </div>
+            <div class="ring-name">Precision</div>
+          </div>
+          <div class="metric-ring">
+            <div class="ring-wrap">
+              <svg width="80" height="80" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--border)" stroke-width="8"/>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="var(--warn)" stroke-width="8"
+                  stroke-dasharray="201" stroke-dashoffset="70" stroke-linecap="round"/>
+              </svg>
+              <div class="ring-label">
+                <div class="ring-pct" style="color:var(--warn)">65%</div>
+              </div>
+            </div>
+            <div class="ring-name">Velocidad</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:12px">Control del Terapeuta</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn btn-outline w-full" onclick="cambiarDificultad()">⚡ Aumentar dificultad</button>
+          <button class="btn btn-outline w-full">⏸ Pausar sesion</button>
+          <button class="btn btn-outline w-full" onclick="showScreen('escenarios')">🔄 Cambiar escenario</button>
+          <button class="btn btn-danger w-full btn-sm" onclick="finalizarSesion()">⏹ Finalizar sesion</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:12px">Registro de actividad</div>
+      <div id="activity-log" style="display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto">
+        <div class="text-xs" style="padding:6px 8px;background:rgba(57,217,138,0.1);border-radius:6px;border-left:3px solid var(--success)">
+          <span class="text-muted">12:34</span> ✅ Objeto 🍵 capturado correctamente (+40 pts)
+        </div>
+        <div class="text-xs" style="padding:6px 8px;background:rgba(0,212,255,0.1);border-radius:6px;border-left:3px solid var(--accent)">
+          <span class="text-muted">12:32</span> 🎙️ Instruccion de voz enviada: "Extiende el brazo"
+        </div>
+        <div class="text-xs" style="padding:6px 8px;background:rgba(255,107,53,0.1);border-radius:6px;border-left:3px solid var(--warn)">
+          <span class="text-muted">12:30</span> ⚠️ Movimiento incompleto detectado. Repitiendo guia.
+        </div>
+        <div class="text-xs" style="padding:6px 8px;background:rgba(57,217,138,0.1);border-radius:6px;border-left:3px solid var(--success)">
+          <span class="text-muted">12:28</span> ✅ Ejercicio 3 completado. Nivel: Intermedio
+        </div>
+        <div class="text-xs" style="padding:6px 8px;background:rgba(46,117,182,0.1);border-radius:6px;border-left:3px solid var(--azul-m)">
+          <span class="text-muted">12:20</span> ▶️ Sesion iniciada · Escenario: Hogar Virtual
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== SCREEN 4: SENSORES / NUI ===== -->
+<div class="screen" id="screen-sensores">
+<div class="container">
+  <div class="section-header">
+    <h2>Sensores y Modalidades NUI</h2>
+    <span class="section-badge">Pantalla 4</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Dispositivos conectados</div>
+        <span class="pill pill-green">2/2 Online</span>
+      </div>
+      <div class="sensor-item">
+        <div class="sensor-icon">🥽</div>
+        <div class="sensor-info">
+          <div class="sensor-name">Gafas RV · Meta Quest 3</div>
+          <div class="sensor-value">● Conectado · 98% bateria</div>
+          <div class="sensor-status">Renderizado 90fps · Latencia 12ms</div>
+        </div>
+      </div>
+      <div class="sensor-item">
+        <div class="sensor-icon">🖥️</div>
+        <div class="sensor-info">
+          <div class="sensor-name">Servidor local · PC Principal</div>
+          <div class="sensor-value">● Activo · CPU 34%</div>
+          <div class="sensor-status">RAM 8.2GB/16GB · Red local 1Gbps</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Sensores activos</div>
+        <span class="pill pill-blue">3/3 Activos</span>
+      </div>
+      <div class="sensor-item">
+        <div class="sensor-icon">📷</div>
+        <div class="sensor-info">
+          <div class="sensor-name">Camara de profundidad</div>
+          <div class="sensor-value" id="sensor-depth">Manos detectadas · 24 puntos</div>
+          <div class="sensor-status">Precision: ±2mm · 60fps</div>
+        </div>
+      </div>
+      <div class="sensor-item">
+        <div class="sensor-icon">🎙️</div>
+        <div class="sensor-info">
+          <div class="sensor-name">Microfono / Modulo NLP</div>
+          <div class="sensor-value">Escuchando · Confianza 94%</div>
+          <div class="sensor-status">Modelo: es-EC · Latencia 180ms</div>
+        </div>
+      </div>
+      <div class="sensor-item">
+        <div class="sensor-icon">⬇️</div>
+        <div class="sensor-info">
+          <div class="sensor-name">Giroscopio / Acelerometro</div>
+          <div class="sensor-value">Pitch: 12° · Yaw: -5° · Roll: 2°</div>
+          <div class="sensor-status">Frecuencia: 1000Hz · Drift: 0.01°/min</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Modalidades NUI activas</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="nui-badge active" onclick="this.classList.toggle('active')">
+          <span class="nui-icon">✋</span>
+          <div>
+            <div style="font-weight:600">Gestos de mano</div>
+            <div class="text-xs text-muted">Agarrar · Soltar · Senalar · Extension</div>
+          </div>
+          <div class="voice-bar" style="margin-left:auto;opacity:0.5">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="nui-badge active" onclick="this.classList.toggle('active')">
+          <span class="nui-icon">🎙️</span>
+          <div>
+            <div style="font-weight:600">Comandos de voz</div>
+            <div class="text-xs text-muted">"Iniciar" · "Pausar" · "Siguiente"</div>
+          </div>
+          <div class="voice-bar" style="margin-left:auto">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="nui-badge active" onclick="this.classList.toggle('active')">
+          <span class="nui-icon">🔄</span>
+          <div>
+            <div style="font-weight:600">Movimiento de cabeza</div>
+            <div class="text-xs text-muted">Rotacion · Inclinacion · Traslacion</div>
+          </div>
+          <div class="voice-bar" style="margin-left:auto;opacity:0.6">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Gesto detectado en tiempo real</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:8px;padding:20px;text-align:center;margin-bottom:12px">
+        <div style="font-size:56px;margin-bottom:8px">🤚</div>
+        <div style="font-family:var(--font-h);font-weight:700;color:var(--accent);font-size:18px">Extension de brazo</div>
+        <div class="text-xs text-muted" style="margin-top:4px">Angulo: 142° · Confianza: 97%</div>
+      </div>
+      <div class="alert alert-success">✅ Gesto correcto reconocido. Accion ejecutada en sistema.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== SCREEN 5: REPORTE ===== -->
+<div class="screen" id="screen-reporte">
+<div class="container">
+  <div class="section-header">
+    <h2>Reporte de Sesion</h2>
+    <span class="section-badge">Pantalla 5</span>
+  </div>
+
+  <div class="flex justify-between items-center" style="margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:18px;font-weight:700">Sesion #15 · Maria Garcia</div>
+      <div class="text-sm text-muted">Hogar Virtual · Hoy 12:20–13:05 · 45 minutos</div>
+    </div>
+    <button class="btn btn-primary">📄 Descargar PDF</button>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:20px">
+    <div class="report-stat">
+      <div class="report-stat-val" style="color:var(--success)">82%</div>
+      <div class="report-stat-lbl">Precision promedio</div>
+    </div>
+    <div class="report-stat">
+      <div class="report-stat-val" style="color:var(--accent)">28</div>
+      <div class="report-stat-lbl">Ejercicios completados</div>
+    </div>
+    <div class="report-stat">
+      <div class="report-stat-val" style="color:var(--warn)">1,560</div>
+      <div class="report-stat-lbl">Puntos obtenidos</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Progreso de precision (ultimas 6 sesiones)</div>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-col">
+          <div class="bar-val">65%</div>
+          <div class="bar" style="height:78px;background:var(--azul-m)"></div>
+          <div class="bar-lbl">S10</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-val">68%</div>
+          <div class="bar" style="height:82px;background:var(--azul-m)"></div>
+          <div class="bar-lbl">S11</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-val">71%</div>
+          <div class="bar" style="height:85px;background:var(--azul-c)"></div>
+          <div class="bar-lbl">S12</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-val">73%</div>
+          <div class="bar" style="height:88px;background:var(--azul-c)"></div>
+          <div class="bar-lbl">S13</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-val">78%</div>
+          <div class="bar" style="height:94px;background:var(--success)"></div>
+          <div class="bar-lbl">S14</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-val">82%</div>
+          <div class="bar" style="height:100px;background:var(--success);box-shadow:0 0 12px rgba(57,217,138,0.4)"></div>
+          <div class="bar-lbl" style="font-weight:700;color:var(--success)">S15 ★</div>
+        </div>
+      </div>
+      <div class="alert alert-success" style="margin-top:12px">
+        📈 Progreso constante: +17% de mejora en precision en las ultimas 6 sesiones.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Desglose por tipo de ejercicio</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div class="flex justify-between text-sm" style="margin-bottom:4px">
+            <span>Extension de brazo</span><span style="color:var(--success);font-weight:700">88%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:88%;background:var(--success)"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm" style="margin-bottom:4px">
+            <span>Agarre y manipulacion</span><span style="color:var(--accent);font-weight:700">82%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:82%;background:var(--accent)"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm" style="margin-bottom:4px">
+            <span>Coordinacion ojo-mano</span><span style="color:var(--azul-c);font-weight:700">75%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:75%;background:var(--azul-c)"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm" style="margin-bottom:4px">
+            <span>Movimientos finos</span><span style="color:var(--warn);font-weight:700">68%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:68%;background:var(--warn)"></div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-title" style="margin-bottom:8px">Recomendaciones automaticas</div>
+      <div style="font-size:13px;display:flex;flex-direction:column;gap:6px">
+        <div>• Continuar con ejercicios de motricidad fina (mayor area de mejora).</div>
+        <div>• Subir dificultad de agarre a nivel 4 en proxima sesion.</div>
+        <div>• Incorporar ejercicios de traslacion lateral del brazo.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    const tabs = ['dashboard','escenarios','sesion','sensores','reporte'];
+    const idx = tabs.indexOf(name);
+    document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  }
+
+  function selectPatient(el, name) {
+    document.querySelectorAll('.patient-row').forEach(r => r.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function selectScenario(el) {
+    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function cambiarDificultad() {
+    const el = document.getElementById('hud-puntos');
+    el.textContent = '1,560';
+    const log = document.getElementById('activity-log');
+    const entry = document.createElement('div');
+    entry.className = 'text-xs';
+    entry.style = 'padding:6px 8px;background:rgba(0,212,255,0.1);border-radius:6px;border-left:3px solid var(--accent)';
+    entry.innerHTML = '<span class="text-muted">Ahora</span> ⚡ Dificultad aumentada a nivel 4';
+    log.prepend(entry);
+  }
+
+  function finalizarSesion() {
+    showScreen('reporte');
+  }
+
+  // Timer HUD
+  let seconds = 754;
+  setInterval(() => {
+    seconds++;
+    const m = Math.floor(seconds/60).toString().padStart(2,'0');
+    const s = (seconds%60).toString().padStart(2,'0');
+    const el = document.getElementById('hud-tiempo');
+    if(el) el.textContent = m + ':' + s;
+  }, 1000);
+
+  // Animacion de precision HUD
+  setInterval(() => {
+    const el = document.getElementById('hud-precision');
+    if(el) {
+      const vals = [78,80,82,84,81,83,85,79];
+      el.textContent = vals[Math.floor(Math.random()*vals.length)] + '%';
+    }
+  }, 2000);
+</script>
+</body>
+</html>

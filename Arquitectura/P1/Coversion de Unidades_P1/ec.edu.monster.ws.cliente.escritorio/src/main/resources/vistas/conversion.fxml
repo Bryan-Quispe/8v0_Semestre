@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ec.edu.monster.ws.cliente.escritorio.controladores.ConversionControlador"
+      spacing="14" styleClass="contenedor-conversion">
+    <padding><Insets top="20" right="30" bottom="20" left="30"/></padding>
+
+    <!-- Barra superior -->
+    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="barra-superior-fx">
+        <Label text="⚡ Conversor de Unidades SOAP" styleClass="barra-titulo"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="lblUsuario" text="👤 Usuario" styleClass="barra-usuario"/>
+        <Button fx:id="btnSalir" text="🚪 Salir" onAction="#cerrarSesion" styleClass="boton-salir"/>
+    </HBox>
+
+    <Label text="📐 Conversión de Unidades" styleClass="titulo-seccion"/>
+
+    <!-- Categoría -->
+    <Label text="📋 Categoría" styleClass="etiqueta"/>
+    <ComboBox fx:id="cmbCategoria" maxWidth="Infinity" styleClass="combo"/>
+
+    <!-- Valor -->
+    <Label text="🔢 Valor" styleClass="etiqueta"/>
+    <TextField fx:id="txtValor" promptText="Ingrese el valor" styleClass="campo-texto"/>
+
+    <!-- Unidades -->
+    <HBox spacing="12">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="📥 Unidad Origen" styleClass="etiqueta"/>
+            <ComboBox fx:id="cmbDesde" maxWidth="Infinity" styleClass="combo"/>
+        </VBox>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="📤 Unidad Destino" styleClass="etiqueta"/>
+            <ComboBox fx:id="cmbHasta" maxWidth="Infinity" styleClass="combo"
+                       onAction="#procesarConversion"/>
+        </VBox>
+    </HBox>
+
+    <Button fx:id="btnConvertir" text="🔄 Convertir" onAction="#procesarConversion"
+            styleClass="boton-primario" maxWidth="Infinity"/>
+
+    <!-- Resultado -->
+    <Label fx:id="lblResultado" text="" styleClass="resultado" visible="false" wrapText="true"/>
+
+    <!-- Error -->
+    <Label fx:id="lblError" text="" styleClass="error" visible="false" wrapText="true"/>
+</VBox>

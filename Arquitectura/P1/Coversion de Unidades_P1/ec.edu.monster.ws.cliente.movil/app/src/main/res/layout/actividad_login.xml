@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="@color/fondo_principal">
+
+    <!-- Logo -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="⚡"
+        android:textSize="48sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre_app"
+        android:textSize="22sp"
+        android:textColor="@color/titulo"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SOAP Web Service - Grupo 04"
+        android:textSize="12sp"
+        android:textColor="@color/texto_secundario"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ec.edu.monster.ws - Cliente Móvil"
+        android:textSize="12sp"
+        android:textColor="@color/texto_secundario"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Usuario -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🔑 Usuario"
+        android:textColor="@color/etiqueta"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp" />
+
+    <EditText
+        android:id="@+id/txtUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Ingrese su usuario"
+        android:textColor="@color/texto_principal"
+        android:textColorHint="@color/texto_hint"
+        android:background="@color/fondo_campo"
+        android:padding="12dp"
+        android:textSize="15sp"
+        android:inputType="text"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Contraseña -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🔒 Contraseña"
+        android:textColor="@color/etiqueta"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="#a5b4fc"
+        app:hintEnabled="false"
+        app:boxBackgroundMode="none">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtClave"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Ingrese su contraseña"
+            android:textColor="@color/texto_principal"
+            android:textColorHint="@color/texto_hint"
+            android:background="@color/fondo_campo"
+            android:padding="12dp"
+            android:textSize="15sp"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Error -->
+    <TextView
+        android:id="@+id/lblError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/error"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Botón Login -->
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Iniciar Sesión"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/acento_primario"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Cargando -->
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:indeterminateTint="@color/acento_primario"
+        android:visibility="gone" />
+</LinearLayout>
